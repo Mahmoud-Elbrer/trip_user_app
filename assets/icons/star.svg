@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+  <g id="Layer_2" data-name="Layer 2" transform="translate(-230 -435)">
+    <g id="star">
+      <path id="Vector" d="M0,0H20V20H0Z" transform="translate(250 435) rotate(90)" fill="#ffbc15" opacity="0"/>
+      <path id="Vector-2" data-name="Vector" d="M12.936,15.837a.833.833,0,0,1-.383-.092L8.3,13.52l-4.25,2.225a.833.833,0,0,1-1.208-.883l.833-4.692L.245,6.837a.823.823,0,0,1,.467-1.4l4.75-.692L7.553.47a.833.833,0,0,1,1.5,0L11.17,4.737l4.75.692a.823.823,0,0,1,.467,1.4l-3.433,3.333.833,4.692a.825.825,0,0,1-.85.983Z" transform="translate(231.697 436.663)" fill="#ffbc15"/>
+    </g>
+  </g>
+</svg>
