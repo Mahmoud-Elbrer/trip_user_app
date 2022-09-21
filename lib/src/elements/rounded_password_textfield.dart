@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../localization/language_constants.dart';
-import '../../utilitis/toast.dart';
 
 
 class RoundedPasswordTextField extends StatelessWidget {
@@ -38,7 +36,7 @@ class RoundedPasswordTextField extends StatelessWidget {
         autofocus: false,
 
         style: const TextStyle(
-            color: const Color(0xff1c2340),
+            color:  Color(0xff1c2340),
             fontWeight: FontWeight.w400,
             // fontFamily: "Roboto",
             fontStyle: FontStyle.normal,
@@ -47,11 +45,11 @@ class RoundedPasswordTextField extends StatelessWidget {
           suffixIcon: GestureDetector(
             onTap: press as void Function()?,
             child: obscureText
-                ? Icon(
+                ? const Icon(
                     Icons.visibility,
                     color: Colors.grey,
                   )
-                : Icon(
+                : const Icon(
                     Icons.visibility_off,
                     color: Colors.grey,
                   ),
@@ -64,12 +62,9 @@ class RoundedPasswordTextField extends StatelessWidget {
         //  ^((?=.*\d)(?=.*[a-zA-Z])[a-zA-Z0-9!@#$%&*]{6,20})$
         validator: (String? value) {
           if (value!.isEmpty) {
-            return getTranslated(context, 'this_field_cannot_be_empty');
+            return  'this_field_cannot_be_empty';
           } else if (value.length  < 4)  {
-            failToast(context,
-                getTranslated(context, 'this_field_cannot_be_empty_password')!);
-            return getTranslated(
-                context, 'this_field_cannot_be_empty_password');
+            return 'this_field_cannot_be_empty_password';
           } else {
             return null;
           }

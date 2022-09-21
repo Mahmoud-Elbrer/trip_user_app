@@ -13,7 +13,7 @@ ThemeData appTheme() {
     fontFamily: AppStrings.fontFamily,
     appBarTheme: const AppBarTheme(
         centerTitle: true,
-        color: Colors.transparent,
+        color: Color(0xfff1f9ff),
         elevation: 0,
         titleTextStyle: TextStyle(
           color: Colors.black,

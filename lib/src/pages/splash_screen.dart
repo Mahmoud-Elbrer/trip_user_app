@@ -1,10 +1,29 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:trip_user_app/core/utils/app_strings.dart';
+import 'package:trip_user_app/src/pages/bottom_navigation_screen.dart';
+import 'package:trip_user_app/src/pages/login_screen.dart';
+import 'package:trip_user_app/src/pages/singup_screen.dart';
 
 import '../../core/utils/assets_manger.dart';
 
-class SplashScreen extends StatelessWidget {
+class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
+
+  @override
+  State<SplashScreen> createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Timer(const Duration(seconds: 1), () {
+      Navigator.pushReplacementNamed(context, SignUpScreen.routeName);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

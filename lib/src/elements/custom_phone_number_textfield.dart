@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../../localization/language_constants.dart';
-//import 'package:super_tooltip/super_tooltip.dart';
 
 class CustomPhoneNumberTextField extends StatelessWidget {
   final String? text;
@@ -68,9 +66,9 @@ class CustomPhoneNumberTextField extends StatelessWidget {
         ),
         validator: (String? value) {
           if (value!.isEmpty) {
-            return getTranslated(context, 'this_field_cannot_be_empty_phone');
+            return 'this_field_cannot_be_empty_phone';
           } else if (!RegExp(r'(^(?:[+0]9)?[0-9]{10}$)').hasMatch(value)) {
-            return getTranslated(context, 'phone_number_correct_content');
+            return 'phone_number_correct_content';
           } else {
             return null;
           }
