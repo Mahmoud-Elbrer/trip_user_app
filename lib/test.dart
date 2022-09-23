@@ -1,140 +1,111 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:trip_user_app/src/pages/bottom_navigation_screen.dart';
+import 'package:trip_user_app/src/pages/trips_screen.dart';
+
+import 'config/routes/app_routes.dart';
 
 
-class MyHomePage extends StatefulWidget {
-  final String title;
-
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-
-
-
+class TabBarDemo extends StatefulWidget {
+  static const String  routeName  = Routes.tabBarRoute;
+  const TabBarDemo({Key? key}) : super(key: key);
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _TabBarDemoState createState() => _TabBarDemoState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  String _selectedDate = 'Tap to select date';
+class _TabBarDemoState extends State<TabBarDemo>
+    with SingleTickerProviderStateMixin {
+  TabController? _controller;
+  int _selectedIndex = 0;
 
-  Future<void> _selectDate(BuildContext context) async {
-    final DateTime? d = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime.now(),
-      lastDate: DateTime(2025),
-    );
-    if (d != null) {
+  List<Widget> list = [
+   // Tab(icon: Icon(Icons.card_travel)),
+    const Tab(text: 'All' ),
+    const Tab(text: 'Abu Dhabi'),
+    const Tab(text: 'Dubai'),
+    const Tab(text: 'Sharjah'),
+    const Tab(text: 'Ajman'),
+    const Tab(text: 'Umm Al Quwain'),
+    const Tab(text: 'Ras Al Khaimah'),
+    const Tab(text: 'Fujairah'),
+  ];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    // Create TabController for getting the index of current tab
+    _controller = TabController(length: list.length, vsync: this );
+
+    _controller!.addListener(() {
       setState(() {
-        _selectedDate =  DateFormat.yMMMMd("en_US").format(d);
+        _selectedIndex = _controller!.index;
       });
-    }
+      print("Selected Index: " + _controller!.index.toString());
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            Container(
-              decoration: const BoxDecoration(
-                  border: Border(
-                    top: BorderSide(width: 1.0, color: Colors.black),
-                    left: BorderSide(width: 1.0, color: Colors.black),
-                    right: BorderSide(width: 1.0, color: Colors.black),
-                    bottom: BorderSide(width: 1.0, color: Colors.black),
-                  ),
-                  borderRadius: BorderRadius.all(Radius.circular(5))
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    InkWell(
-                      child: Text(
-                          _selectedDate,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(color: Color(0xFF000000))
-                      ),
-                      onTap: (){
-                        _selectDate(context);
-                      },
-                    ),
-                    IconButton(
-                      icon: Icon(Icons.calendar_today),
-                      tooltip: 'Tap to open date picker',
-                      onPressed: () {
-                        _selectDate(context);
-                      },
-                    ),
-                  ],
-                ),
-              ),
-            ),
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          bottom: TabBar(
+            isScrollable: true,
+            onTap: (index) {
+              // Should not used it as it only called when tab options are clicked,
+              // not when user swapped
+            },
+            controller: _controller,
+            tabs: list,
+          ),
+          centerTitle: true,
+          title: Text('Trips'),
+        ),
+
+        body: TabBarView(
+          controller: _controller,
+          children: [
+            TripsScreen(),
+            Center(
+                child: Text(
+                 '',
+                  style: TextStyle(fontSize: 40),
+                )),
+            Center(
+                child: Text(
+                  '',
+                  style: TextStyle(fontSize: 40),
+                )),
+            Center(
+                child: Text(
+                  '',
+                  style: TextStyle(fontSize: 40),
+                )),
+            Center(
+                child: Text(
+                  '',
+                  style: TextStyle(fontSize: 40),
+                )),
+            Center(
+                child: Text(
+                  '',
+                  style: TextStyle(fontSize: 40),
+                )),
+            Center(
+                child: Text(
+                  '',
+                  style: TextStyle(fontSize: 40),
+                )),
+            Center(
+                child: Text(
+                  '',
+                  style: TextStyle(fontSize: 40),
+                )),
+
           ],
         ),
       ),
     );
-  }
-}
-
-
-
-
-class MyHomePage1 extends StatefulWidget {
-  @override
-  _MyHomePage1State createState()
-  {
-    return _MyHomePage1State();
-  }
-}
-
-class _MyHomePage1State extends State<MyHomePage> {
-  TimeOfDay selectedTime = TimeOfDay.now();
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Flutter TimePicker"),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            ElevatedButton(
-              onPressed: () {
-                _selectTime(context);
-              },
-              child: Text("Choose Time"),
-            ),
-            Text("${selectedTime.hour}:${selectedTime.minute}"),
-          ],
-        ),
-      ),
-    );
-  }
-  _selectTime(BuildContext context) async {
-    final TimeOfDay? timeOfDay = await showTimePicker(
-      context: context,
-      initialTime: selectedTime,
-      initialEntryMode: TimePickerEntryMode.dial,
-
-    );
-    if(timeOfDay != null && timeOfDay != selectedTime)
-    {
-      setState(() {
-        selectedTime = timeOfDay;
-      });
-    }
   }
 }

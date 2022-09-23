@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 
+import '../pages/bottom_navigation_screen.dart';
+import '../pages/home_screen.dart';
+import '../pages/login_screen.dart';
+
 class RoundedButton extends StatelessWidget {
   final String? text;
-  final Function? press;
+  final VoidCallback?  press;
   final Color color, textColor , backgroundColor;
 
   const RoundedButton({
@@ -20,10 +24,11 @@ class RoundedButton extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top :  19),
       child: InkWell(
-        onTap: press as void Function()?,
+        onTap:  (){
+          Navigator.pushReplacementNamed(context, BottomNavigationScreen.routeName);
+        },
         child: Center(
           child: Container(
-
             padding: const EdgeInsets.symmetric(vertical: 14),
             width: double.infinity,
 

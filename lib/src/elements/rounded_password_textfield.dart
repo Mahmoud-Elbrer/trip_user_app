@@ -17,7 +17,7 @@ class RoundedPasswordTextField extends StatelessWidget {
     this.color = Colors.white,
     this.textColor = Colors.white,
     this.controller,
-    this.obscureText = false,
+    this.obscureText = true,
     this.focusOnFieldSubmitted,
     this.focusNode,
   }) : super(key: key);

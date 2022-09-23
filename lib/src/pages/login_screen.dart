@@ -29,9 +29,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 fontSize: 22.0),
             textAlign: TextAlign.left),
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          color: const Color(0xfff1f9ff),
+      body: Container(
+        color: const Color(0xfff1f9ff),
+        height: double.infinity,
+        child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(24.0),
             child: Column(
@@ -68,11 +69,11 @@ class _LoginScreenState extends State<LoginScreen> {
                         fontSize: 12.0),
                     textAlign: TextAlign.left),
                const  SizedBox(height: 8,) ,
-                const RoundedPasswordTextField(text: 'Email'),
+                const RoundedPasswordTextField(text: 'Password'),
 
-                const RoundedButton(text: 'Sign Up'),
+                const RoundedButton(text: 'Sign Up'    ),
 
-               const  SizedBox(height: 8,) ,
+               const  SizedBox(height: 12,) ,
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: const [
@@ -86,7 +87,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         textAlign: TextAlign.left),
                   ],
                 ),
-
+                const  SizedBox(height: 2,) ,
                 const RoundedButtonSignWith(
                     text: 'Sign up with Apple',
                     backgroundColor: Color(0xff000000),

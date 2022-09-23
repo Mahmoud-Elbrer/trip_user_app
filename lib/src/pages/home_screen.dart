@@ -4,6 +4,7 @@ import 'package:trip_user_app/src/pages/trips_screen.dart';
 
 import '../../config/routes/app_routes.dart';
 import '../../core/utils/assets_manger.dart';
+import '../../test.dart';
 import '../elements/rounded_textfield.dart';
 import '../elements/trip_home_widget.dart';
 
@@ -138,7 +139,7 @@ class _HomeScreenState extends State<HomeScreen> {
 // See All
           GestureDetector(
             onTap: (){
-              Navigator.pushNamed(context, TripsScreen.routeName) ;
+              Navigator.pushNamed(context, TabBarDemo.routeName) ;
             },
             child: Text("See All",
                 style: TextStyle(

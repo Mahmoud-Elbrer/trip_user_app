@@ -16,7 +16,7 @@ class _TripsScreenState extends State<TripsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Trips')),
+     // appBar: AppBar(title: Text('Trips')),
       body: Container(
         color: const Color(0xfff1f9ff),
         child: Padding(

@@ -23,6 +23,7 @@ class Routes {
   static const String tripsRoute = '/TripsScreen';
   static const String loginRoute = '/LoginScreen';
   static const String signUpRoute = '/SignUpScreen';
+  static const String tabBarRoute = '/TabBarDemo';
 }
 
 class AppRoutes {
@@ -57,6 +58,10 @@ class AppRoutes {
 
       case Routes.signUpRoute:
         return MaterialPageRoute(builder: ((context) => const SignUpScreen()));
+
+      case Routes.tabBarRoute:
+        return MaterialPageRoute(builder: ((context) => const TabBarDemo()));
+
 
       default:
         return underlineRoute();
