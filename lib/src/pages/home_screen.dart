@@ -3,10 +3,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:trip_user_app/src/pages/trips_screen.dart';
 
 import '../../config/routes/app_routes.dart';
-import '../../core/utils/assets_manger.dart';
 import '../../test.dart';
 import '../elements/rounded_textfield.dart';
 import '../elements/trip_home_widget.dart';
+import '../utilitis/assets_manger.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = Routes.homeRoute;

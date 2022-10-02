@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../pages/detail_trip_screen.dart';
+
 class TripHomeWidget extends StatelessWidget {
   final String imagePath;
 
@@ -12,16 +14,21 @@ class TripHomeWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(left: 10),
-      child: Container(
-        width: 249,
-        height: 411,
-        decoration: const BoxDecoration(
-            color: Colors.grey,
-            borderRadius: BorderRadius.all(
-              Radius.circular(23),
-            )),
-        child: Image.asset(imagePath,
-            fit: BoxFit.fitHeight, filterQuality: FilterQuality.high),
+      child: GestureDetector(
+        onTap: (){
+          Navigator.pushNamed(context, DetailTripScreen.routeName) ;
+        },
+        child: Container(
+          width: 249,
+          height: 411,
+          decoration: const BoxDecoration(
+              color: Colors.grey,
+              borderRadius: BorderRadius.all(
+                Radius.circular(23),
+              )),
+          child: Image.asset(imagePath,
+              fit: BoxFit.fitHeight, filterQuality: FilterQuality.high),
+        ),
       ),
     );
   }

@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
-import 'package:trip_user_app/core/utils/assets_manger.dart';
 
+import '../../config/routes/app_routes.dart';
 import '../elements/rounded_button.dart';
+import '../utilitis/assets_manger.dart';
 
 class DetailTripScreen extends StatefulWidget {
+  static const String routeName = Routes.detailTripRoute;
+
   const DetailTripScreen({Key? key}) : super(key: key);
 
   @override
@@ -35,10 +38,8 @@ class _DetailTripScreenState extends State<DetailTripScreen> {
       context: context,
       initialTime: selectedTime,
       initialEntryMode: TimePickerEntryMode.dial,
-
     );
-    if(timeOfDay != null && timeOfDay != selectedTime)
-    {
+    if (timeOfDay != null && timeOfDay != selectedTime) {
       setState(() {
         selectedTime = timeOfDay;
       });
@@ -52,93 +53,113 @@ class _DetailTripScreenState extends State<DetailTripScreen> {
         title: const Text('Rihla'),
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
-        child: Container(
+      body: Container(
+        child: SingleChildScrollView(
           child: Column(
             children: [
               // 111
               Container(
-                width: double.infinity,
-                height: 236,
-                child: Image.asset('assets/images/trip.png'),
+                color: const Color(0xffffffff),
+                child: Column(
+                  children: [
+                    Container(
+                      width: double.infinity,
+                      height: 236,
+                      child: Image.asset('assets/images/image3.png',
+                          fit: BoxFit.fitWidth),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text("Caribbean",
+                              style: TextStyle(
+                                  color: Color(0xff003053),
+                                  fontWeight: FontWeight.w700,
+                                  fontFamily: "PlayfairDisplay",
+                                  fontStyle: FontStyle.normal,
+                                  fontSize: 30.0),
+                              textAlign: TextAlign.left),
+                          const SizedBox(
+                            height: 4,
+                          ),
+                          Row(
+                            children: [
+                              rowLocation(
+                                  iconPath: 'grey_location.svg',
+                                  title: 'French'),
+                              rowLocation(iconPath: 'star.svg', title: '4.9'),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 4,
+                          ),
+                          Row(
+                            children: [
+                              containerIntent(iconPath: 'location.svg'),
+                              containerIntent(iconPath: 'call.svg'),
+                              containerIntent(iconPath: 'share.svg'),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
               // Rectangle 161
               Container(
+                color: const Color(0xfff1f9ff),
                 width: double.infinity,
-                // height: 236,
-                decoration: const BoxDecoration(boxShadow: [
-                  BoxShadow(
-                      color: Color(0x17003053),
-                      offset: Offset(0, 0),
-                      blurRadius: 30,
-                      spreadRadius: 0)
-                ], color: Color(0xffffffff)),
-                child: Row(
-                  children: [
-                    Column(
-                      children: [
-                        // Caribbean
-                        const Text("Caribbean",
-                            style: TextStyle(
-                                color: Color(0xff003053),
-                                fontWeight: FontWeight.w700,
-                                fontFamily: "PlayfairDisplay",
-                                fontStyle: FontStyle.normal,
-                                fontSize: 30.0),
-                            textAlign: TextAlign.left),
+                child: Padding(
+                  padding: const EdgeInsets.all(24.0),
+                  child: Column(
+                    children: [
+                      Column(
+                        children: [
+                          // Caribbean
 
-                        Row(
-                          children: [
-                            rowLocation(
-                                iconPath: 'grey_location.svg', title: 'French'),
-                            rowLocation(iconPath: 'star.svg', title: '4.9'),
-                          ],
-                        ),
+                          infoTrip(
+                              title: 'Duration',
+                              subTitle:
+                                  'The Caribbean is a region of the Americas that consists of the Caribbean Sea, its islands andthe surrounding coasts.'),
+                          infoTrip(
+                              title: 'Duration',
+                              subTitle:
+                                  'The Caribbean is a region of the Americas that consists of the Caribbean Sea, its islands andthe surrounding coasts.'),
+                          infoTrip(
+                              title: 'Duration',
+                              subTitle:
+                                  'The Caribbean is a region of the Americas that consists of the Caribbean Sea, its islands andthe surrounding coasts.'),
 
-                        Row(
-                          children: [
-                            containerIntent(iconPath: 'location.svg'),
-                            containerIntent(iconPath: 'call.svg'),
-                            containerIntent(iconPath: 'share.svg'),
-                          ],
-                        ),
+                          // Screen Shot 2017-12-01 at 14.01.52
+                          Padding(
+                            padding: const EdgeInsets.only(top: 10, bottom: 10),
+                            child: Container(
+                              width: double.infinity,
+                              height: 173,
+                              color: Colors.grey,
+                            ),
+                          ),
 
-                        infoTrip(
-                            title: 'Duration',
-                            subTitle:
-                                'The Caribbean is a region of the Americas that consists of the Caribbean Sea, its islands andthe surrounding coasts.'),
-                        infoTrip(
-                            title: 'Duration',
-                            subTitle:
-                                'The Caribbean is a region of the Americas that consists of the Caribbean Sea, its islands andthe surrounding coasts.'),
-                        infoTrip(
-                            title: 'Duration',
-                            subTitle:
-                                'The Caribbean is a region of the Americas that consists of the Caribbean Sea, its islands andthe surrounding coasts.'),
+                          titleSelectTime(text: 'Select Data'),
 
-                        // Screen Shot 2017-12-01 at 14.01.52
-                        Container(
-                          width: double.infinity,
-                          height: 173,
-                          color: Colors.grey,
-                        ),
+                          selectDatePicker(),
 
-                        titleSelectTime(text: 'Select Data'),
+                          titleSelectTime(text: 'Select Time'),
 
-                        selectDatePicker(),
+                          selectTimePicker(),
 
-                        titleSelectTime(text: 'Select Time'),
+                          titleSelectTime(text: 'Number of quest'),
 
-                        selectTimePicker() ,
+                          selectQuestContainer(),
 
-                        titleSelectTime(text: 'Number of quest'),
-
-                        selectQuestContainer(),
-
-                        const RoundedButton(text: 'Book Now'),
-                      ],
-                    )
-                  ],
+                          const RoundedButton(text: 'Next'),
+                        ],
+                      )
+                    ],
+                  ),
                 ),
               )
             ],
@@ -149,36 +170,42 @@ class _DetailTripScreenState extends State<DetailTripScreen> {
   }
 
   Widget rowLocation({required iconPath, required title}) {
-    return Row(
-      children: [
-        SvgPicture.asset(
-          SvgAssets.path + iconPath,
-        ),
-        const SizedBox(
-          width: 12,
-        ),
-        const Text("4.9",
-            style: TextStyle(
-                color: Color(0xff212c3f),
-                fontWeight: FontWeight.w500,
-                fontFamily: "Lato",
-                fontStyle: FontStyle.normal,
-                fontSize: 18.0),
-            textAlign: TextAlign.left)
-      ],
+    return Padding(
+      padding: const EdgeInsets.only(left: 5, right: 5),
+      child: Row(
+        children: [
+          SvgPicture.asset(
+            SvgAssets.path + iconPath,
+          ),
+          const SizedBox(
+            width: 3,
+          ),
+          const Text("4.9",
+              style: TextStyle(
+                  color: Color(0xff212c3f),
+                  fontWeight: FontWeight.w500,
+                  fontFamily: "Lato",
+                  fontStyle: FontStyle.normal,
+                  fontSize: 18.0),
+              textAlign: TextAlign.left)
+        ],
+      ),
     );
   }
 
   Widget containerIntent({required iconPath}) {
-    return Container(
-      width: 42,
-      height: 42,
-      decoration: const BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(21)),
-          color: Color(0xff0081df)),
-      child: Center(
-        child: SvgPicture.asset(
-          SvgAssets.path + iconPath,
+    return Padding(
+      padding: const EdgeInsets.only(left: 5, right: 5),
+      child: Container(
+        width: 42,
+        height: 42,
+        decoration: const BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(21)),
+            color: Color(0xff0081df)),
+        child: Center(
+          child: SvgPicture.asset(
+            SvgAssets.path + iconPath,
+          ),
         ),
       ),
     );
@@ -188,6 +215,7 @@ class _DetailTripScreenState extends State<DetailTripScreen> {
     return Padding(
       padding: const EdgeInsets.only(top: 20),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Description
           Text(title,
@@ -216,27 +244,34 @@ class _DetailTripScreenState extends State<DetailTripScreen> {
   }
 
   Widget titleSelectTime({required text}) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 10),
-      child: Text(text,
-          style: const TextStyle(
-              color: Color(0xff0081df),
-              fontWeight: FontWeight.w500,
-              fontFamily: "Poppins",
-              fontStyle: FontStyle.normal,
-              fontSize: 14.0),
-          textAlign: TextAlign.left),
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          margin: const EdgeInsets.symmetric(vertical: 10),
+          child: Text(text,
+              style: const TextStyle(
+                  color: Color(0xff0081df),
+                  fontWeight: FontWeight.w500,
+                  fontFamily: "Poppins",
+                  fontStyle: FontStyle.normal,
+                  fontSize: 14.0),
+              textAlign: TextAlign.left),
+        ),
+      ],
     );
   }
 
   Widget selectQuestContainer() {
     return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       width: double.infinity,
-      height: 100,
+      //margin: ,
       decoration: const BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(8)),
           color: Color(0xffffffff)),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Deluxe Twin Room
           const Text("Number of questSingle Room",
@@ -245,14 +280,18 @@ class _DetailTripScreenState extends State<DetailTripScreen> {
                   fontWeight: FontWeight.w700,
                   fontFamily: "Montserrat",
                   fontStyle: FontStyle.normal,
-                  fontSize: 16.0),
+                  fontSize: 12.0),
               textAlign: TextAlign.left),
+          const SizedBox(
+            height: 8,
+          ),
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Column(
                 children: const [
                   // 2 double beds 2 room
-                  Text("2 Adult",
+                  Text("0 Adult",
                       style: TextStyle(
                           color: Color(0x8024253d),
                           fontWeight: FontWeight.w500,
@@ -261,7 +300,7 @@ class _DetailTripScreenState extends State<DetailTripScreen> {
                           fontSize: 14.0),
                       textAlign: TextAlign.left),
                   // 2 double beds 2 room
-                  Text("2 Child",
+                  Text("0 Child",
                       style: TextStyle(
                           color: Color(0x8024253d),
                           fontWeight: FontWeight.w500,
@@ -271,6 +310,24 @@ class _DetailTripScreenState extends State<DetailTripScreen> {
                       textAlign: TextAlign.left)
                 ],
               ),
+              // Rectangle 5
+              Container(
+                width: 113,
+                height: 41,
+                decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(100)),
+                    color: Color(0xff3389ee)),
+                child: const Center(
+                  child: Text("ADD",
+                          style: TextStyle(
+                              color: Color(0xffffffff),
+                              fontWeight: FontWeight.w400,
+                              fontFamily: "Montserrat",
+                              fontStyle: FontStyle.normal,
+                              fontSize: 14.0),
+                          textAlign: TextAlign.center),
+                ),
+              )
             ],
           ),
         ],
@@ -287,28 +344,39 @@ class _DetailTripScreenState extends State<DetailTripScreen> {
         width: double.infinity,
         height: 51,
         decoration: const BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(16)),
+            borderRadius: BorderRadius.all(Radius.circular(10)),
             color: Color(0xffffffff)),
         child: Row(
           children: [
-            SvgPicture.asset(
-              SvgAssets.path + 'calender.svg',
-            ),
-            const SizedBox(
-              width: 14,
-            ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 8, right: 8),
+                child: Row(
+                  children: [
+                    SvgPicture.asset(
+                      SvgAssets.path + 'calender.svg',
+                    ),
+                    const SizedBox(
+                      width: 14,
+                    ),
 // See All
-            Text(_selectedDate,
-                style: const TextStyle(
-                    color: Color(0x8a4e6772),
-                    fontWeight: FontWeight.w500,
-                    fontFamily: "Poppins",
-                    fontStyle: FontStyle.normal,
-                    fontSize: 15.0),
-                textAlign: TextAlign.left) ,
-
-            SvgPicture.asset(
-              SvgAssets.path + 'down-arrow.svg',
+                    Text(_selectedDate,
+                        style: const TextStyle(
+                            color: Color(0x8a4e6772),
+                            fontWeight: FontWeight.w500,
+                            fontFamily: "Poppins",
+                            fontStyle: FontStyle.normal,
+                            fontSize: 15.0),
+                        textAlign: TextAlign.left),
+                  ],
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 8, right: 8),
+              child: SvgPicture.asset(
+                SvgAssets.path + 'down-arrow.svg',
+              ),
             ),
           ],
         ),
@@ -336,7 +404,7 @@ class _DetailTripScreenState extends State<DetailTripScreen> {
               width: 14,
             ),
 // See All
-            Text(_selectedDate,
+            Text(selectedTime.hour.toString() + " : ".toString() +  selectedTime.minute.toString() ,
                 style: const TextStyle(
                     color: Color(0x8a4e6772),
                     fontWeight: FontWeight.w500,

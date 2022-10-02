@@ -24,9 +24,7 @@ class RoundedButton extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top :  19),
       child: InkWell(
-        onTap:  (){
-          Navigator.pushReplacementNamed(context, BottomNavigationScreen.routeName);
-        },
+        onTap: press,
         child: Center(
           child: Container(
             padding: const EdgeInsets.symmetric(vertical: 14),

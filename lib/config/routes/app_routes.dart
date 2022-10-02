@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../core/utils/app_strings.dart';
 import '../../src/pages/bottom_navigation_screen.dart';
+import '../../src/pages/checkout_out_screen.dart';
 import '../../src/pages/detail_trip_screen.dart';
 import '../../src/pages/home_screen.dart';
 import '../../src/pages/login_screen.dart';
@@ -10,6 +10,7 @@ import '../../src/pages/profile_screen.dart';
 import '../../src/pages/singup_screen.dart';
 import '../../src/pages/splash_screen.dart';
 import '../../src/pages/trips_screen.dart';
+import '../../src/utilitis/app_strings.dart';
 import '../../test.dart';
 
 class Routes {
@@ -24,13 +25,14 @@ class Routes {
   static const String loginRoute = '/LoginScreen';
   static const String signUpRoute = '/SignUpScreen';
   static const String tabBarRoute = '/TabBarDemo';
+  static const String checkoutOutRoute = '/CheckoutOutScreen';
 }
 
 class AppRoutes {
   static Route? onGenerateRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
       case Routes.initialRoute:
-        return MaterialPageRoute(builder: ((context) => const SplashScreen()));
+        return MaterialPageRoute(builder: ((context) => const SplashScreen())); // SplashScreen
 
       case Routes.bottomNavigationRoute:
         return MaterialPageRoute(
@@ -61,6 +63,11 @@ class AppRoutes {
 
       case Routes.tabBarRoute:
         return MaterialPageRoute(builder: ((context) => const TabBarDemo()));
+
+
+      case Routes.checkoutOutRoute:
+        return MaterialPageRoute(builder: ((context) => const CheckoutOutScreen()));
+
 
 
       default:

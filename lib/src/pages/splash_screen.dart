@@ -1,12 +1,13 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:trip_user_app/core/utils/app_strings.dart';
+
 import 'package:trip_user_app/src/pages/bottom_navigation_screen.dart';
 import 'package:trip_user_app/src/pages/login_screen.dart';
 import 'package:trip_user_app/src/pages/singup_screen.dart';
 
-import '../../core/utils/assets_manger.dart';
+import '../utilitis/app_strings.dart';
+import '../utilitis/assets_manger.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);

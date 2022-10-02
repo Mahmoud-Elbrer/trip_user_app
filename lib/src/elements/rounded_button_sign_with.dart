@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../core/utils/assets_manger.dart';
+import '../utilitis/assets_manger.dart';
+
 
 class RoundedButtonSignWith extends StatelessWidget {
   final String? text;

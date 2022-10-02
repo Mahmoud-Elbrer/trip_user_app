@@ -1,20 +1,72 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:provider/provider.dart';
+import 'package:trip_user_app/src/pages/bottom_navigation_screen.dart';
+import 'package:trip_user_app/src/pages/home_screen.dart';
+import 'package:trip_user_app/src/pages/singup_screen.dart';
+import 'package:trip_user_app/src/utilitis/toast.dart';
 import '../../config/routes/app_routes.dart';
+import '../../localization/language_constants.dart';
+import '../controllers/authentication_provider.dart';
 import '../elements/custom_email_textfield.dart';
 
 import '../elements/rounded_button.dart';
 import '../elements/rounded_button_sign_with.dart';
 import '../elements/rounded_password_textfield.dart';
+import '../models/login_model.dart';
+import '../utilitis/alert_dialog.dart';
+import '../utilitis/get_trans_language.dart';
+import '../utilitis/seenAuth.dart';
 
 class LoginScreen extends StatefulWidget {
-  static const String routeName  = Routes.loginRoute ;
+  static const String routeName = Routes.loginRoute;
+
   const LoginScreen({Key? key}) : super(key: key);
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
+bool _obscurePasswordTextFiled = true;
+
 class _LoginScreenState extends State<LoginScreen> {
+  //bool _checkbox = true;
+  final _formKey = GlobalKey<FormState>();
+  TextEditingController? _emailController;
+  TextEditingController? _passwordController;
+  String? password, email;
+  final _emailFocusNode = FocusNode();
+  final _passwordFocusNode = FocusNode();
+
+  // Toggles the password show status
+  void _togglePasswordTextFiled() {
+    setState(() {
+      _obscurePasswordTextFiled = !_obscurePasswordTextFiled;
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _emailController = TextEditingController();
+    _passwordController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _emailController!.dispose();
+    _passwordController!.dispose();
+    // TODO: implement dispose
+    // dispose FocusNode
+    _emailFocusNode.dispose();
+    _passwordFocusNode.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,7 +90,9 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-               const SizedBox(height: 40,) ,
+                const SizedBox(
+                  height: 40,
+                ),
                 const Text("Sign In",
                     style: TextStyle(
                         color: Color(0xff000000),
@@ -47,7 +101,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         fontStyle: FontStyle.normal,
                         fontSize: 36.0),
                     textAlign: TextAlign.left),
-                const SizedBox(height: 20,) ,
+                const SizedBox(
+                  height: 20,
+                ),
                 // email
                 const Text("email",
                     style: TextStyle(
@@ -57,9 +113,16 @@ class _LoginScreenState extends State<LoginScreen> {
                         fontStyle: FontStyle.normal,
                         fontSize: 12.0),
                     textAlign: TextAlign.left),
-                const SizedBox(height: 8,) ,
-                const CustomEmailField(text: 'Email'),
-                const SizedBox(height: 10,) ,
+                const SizedBox(
+                  height: 8,
+                ),
+                CustomEmailField(
+                    text: 'Email',
+                    controller: _emailController,
+                    focusNode: _passwordFocusNode),
+                const SizedBox(
+                  height: 10,
+                ),
                 const Text("Password",
                     style: TextStyle(
                         color: Color(0xff000000),
@@ -68,16 +131,39 @@ class _LoginScreenState extends State<LoginScreen> {
                         fontStyle: FontStyle.normal,
                         fontSize: 12.0),
                     textAlign: TextAlign.left),
-               const  SizedBox(height: 8,) ,
-                const RoundedPasswordTextField(text: 'Password'),
+                const SizedBox(
+                  height: 8,
+                ),
+                RoundedPasswordTextField(
+                  text: 'Password',
+                  controller: _passwordController,
+                  focusOnFieldSubmitted: _passwordFocusNode,
+                ),
 
-                const RoundedButton(text: 'Sign Up'    ),
+                RoundedButton(
+                    text: 'Sign Up',
+                    press: () async {
+                      LoginModel loginModel =
+                          LoginModel(email: email, password: password);
+                      var loginJsonModel = jsonEncode(loginModel);
+                     // await EasyLoading.showSuccess('Great Success!');
+                      //  await EasyLoading.dismiss();
+                      // asyLoading.showError('Failed with Error');
+                      await EasyLoading.show(
+                        status: 'loading...',
+                        maskType: EasyLoadingMaskType.black,
+                      );
+                      login(context, loginJsonModel);
+                      Navigator.pushReplacementNamed(context, BottomNavigationScreen.routeName);
+                    }),
 
-               const  SizedBox(height: 12,) ,
+                const SizedBox(
+                  height: 12,
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: const [
-                     Text("Or Sign By :",
+                    Text("Or Sign By :",
                         style: TextStyle(
                             color: Color(0xff000000),
                             fontWeight: FontWeight.w400,
@@ -87,7 +173,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         textAlign: TextAlign.left),
                   ],
                 ),
-                const  SizedBox(height: 2,) ,
+                const SizedBox(
+                  height: 2,
+                ),
                 const RoundedButtonSignWith(
                     text: 'Sign up with Apple',
                     backgroundColor: Color(0xff000000),
@@ -105,31 +193,36 @@ class _LoginScreenState extends State<LoginScreen> {
                     iconPath: 'email.svg'),
 
                 // Already have an account? Log In
-                Container(
-                  margin: const EdgeInsets.symmetric(vertical: 25),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      RichText(
-                          text: const TextSpan(children: [
-                        TextSpan(
-                            style: TextStyle(
-                                color: Color(0xff000000),
-                                fontWeight: FontWeight.w400,
-                                fontFamily: "Montserrat",
-                                fontStyle: FontStyle.normal,
-                                fontSize: 16.0),
-                            text: "Already have an account ? "),
-                        TextSpan(
-                            style: TextStyle(
-                                color: Color(0xffb2002d),
-                                fontWeight: FontWeight.w700,
-                                fontFamily: "Montserrat",
-                                fontStyle: FontStyle.normal,
-                                fontSize: 16.0),
-                            text: "Sign Up")
-                      ])),
-                    ],
+                GestureDetector(
+                  onTap: (){
+                    Navigator.pushNamed(context, SignUpScreen.routeName ) ;
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(vertical: 25),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        RichText(
+                            text: const TextSpan(children: [
+                          TextSpan(
+                              style: TextStyle(
+                                  color: Color(0xff000000),
+                                  fontWeight: FontWeight.w400,
+                                  fontFamily: "Montserrat",
+                                  fontStyle: FontStyle.normal,
+                                  fontSize: 16.0),
+                              text: "Already have an account ? "),
+                          TextSpan(
+                              style: TextStyle(
+                                  color: Color(0xffb2002d),
+                                  fontWeight: FontWeight.w700,
+                                  fontFamily: "Montserrat",
+                                  fontStyle: FontStyle.normal,
+                                  fontSize: 16.0),
+                              text: "Sign Up")
+                        ])),
+                      ],
+                    ),
                   ),
                 ),
               ],
@@ -138,5 +231,36 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> login(BuildContext context, var loginJsonModel) async {
+    try {
+      Map<String, dynamic> response =
+          await (Provider.of<AuthenticationProvider>(context, listen: false)
+              .login(loginJsonModel) as Future<Map<String, dynamic>>);
+
+      if (response['status'] == true) {
+        // await _progressDialog.hide();
+        successToast(context, getTranslationLanguage(response['description'])!);
+        saveSeenAuth();
+        Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+      } else {
+        // await _progressDialog.hide();
+        EasyLoading.showError('Failed with Error');
+        showAlert(context, getTranslated(context, 'alert'),
+            getTranslationLanguage(response['description']));
+      }
+    } on HttpException catch (error) {
+      EasyLoading.showError('Failed with Error');
+      error.toString();
+      // await _progressDialog.hide();
+      showAlert(context, getTranslated(context, 'alert'),
+          getTranslated(context, 'error_occurred'));
+    } catch (error) {
+      EasyLoading.showError('check_for_internet_connection');
+      // await _progressDialog.hide();
+      showAlert(context, getTranslated(context, 'alert'),
+          getTranslated(context, 'check_for_internet_connection'));
+    }
   }
 }
