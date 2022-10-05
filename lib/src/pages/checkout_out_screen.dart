@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import '../../config/routes/app_routes.dart';
 import '../elements/custom_email_textfield.dart';
 import '../elements/custom_phone_number_textfield.dart';
 import '../elements/rounded_button.dart';
@@ -7,6 +8,7 @@ import '../elements/rounded_name_textfield.dart';
 import '../utilitis/assets_manger.dart';
 
 class CheckoutOutScreen extends StatefulWidget {
+  static const String routeName = Routes.checkoutOutRoute;
   const CheckoutOutScreen({Key? key}) : super(key: key);
 
   @override

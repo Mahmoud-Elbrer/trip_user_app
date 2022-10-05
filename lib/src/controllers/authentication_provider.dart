@@ -9,15 +9,29 @@ import 'package:shared_preferences/shared_preferences.dart';
 class AuthenticationProvider extends ChangeNotifier {
 
   Future<Map<String, dynamic>?> login(var loginJsonModel) async {
-    const url = Url.login;
+    String url = Url.login;
+    print("this is url" );
+    print(url );
     try {
+      print("this is loginJsonModel");
+      print(loginJsonModel);
       final response =
-          await http.post(url as Uri, body: loginJsonModel);
+          await http.post( Uri.parse(url) , body: {
+            "email": loginJsonModel['email'],
+            "password": loginJsonModel['password'],
+          });
+
+
+      print('this is response : ');
+      print(response.statusCode);
+      print(response.body);
 
       switch (response.statusCode) {
         case 200:
+        case 400:
+          print("Inside switch ");
           var mJson = jsonDecode(response.body);
-          bool? status = mJson['status'];
+          bool? status = mJson['success'];
           if (status == true) {
             String? message = mJson['description'];
             String token = mJson['token'];
@@ -26,16 +40,15 @@ class AuthenticationProvider extends ChangeNotifier {
             preferences.setString("token", token);
             return json.decode(response.body);
           } else {
+            print("Inside switch2 ");
             return json.decode(response.body);
           }
       }
-      final responseData = json.decode(response.body);
 
-      if (responseData["status"] != true) {
-        throw const HttpException("Please use another number");
-      }
     } catch (error) {
-      throw error;
+      print("this is error");
+      print(error);
+      rethrow;
     }
   }
 
@@ -43,13 +56,22 @@ class AuthenticationProvider extends ChangeNotifier {
   Future<Map<String, dynamic>?> signUp(jsonLBodyRegister) async {
     try {
       const url = Url.register;
+      print(url);
       final response =
-          await http.post(url as Uri, body: jsonLBodyRegister);
+          await http.post(Uri.parse(url) , body: {
+            "name": "Mahmoud",
+            "email": "a11123@gmail.com",
+            "password": "1234567"
+          });
+
+      print(response.statusCode);
+      print(response.body);
+
       switch (response.statusCode) {
         case 200:
           var data = jsonDecode(response.body);
-          int? code = data['code'];
-          if (code == 200) {
+          bool? status = data['success'];
+          if (status == true) {
             return json.decode(response.body);
           } else {
             return json.decode(response.body);

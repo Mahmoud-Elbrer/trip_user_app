@@ -2,25 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:trip_user_app/src/pages/bottom_navigation_screen.dart';
 import 'package:trip_user_app/src/pages/trips_screen.dart';
 
-import 'config/routes/app_routes.dart';
+import '../../config/routes/app_routes.dart';
 
+class EmiratesTripScreen extends StatefulWidget {
+  static const String routeName = Routes.tabBarRoute;
 
-class TabBarDemo extends StatefulWidget {
-  static const String  routeName  = Routes.tabBarRoute;
-  const TabBarDemo({Key? key}) : super(key: key);
+  const EmiratesTripScreen({Key? key}) : super(key: key);
 
   @override
-  _TabBarDemoState createState() => _TabBarDemoState();
+  _EmiratesTripScreenState createState() => _EmiratesTripScreenState();
 }
 
-class _TabBarDemoState extends State<TabBarDemo>
+class _EmiratesTripScreenState extends State<EmiratesTripScreen>
     with SingleTickerProviderStateMixin {
   TabController? _controller;
   int _selectedIndex = 0;
 
   List<Widget> list = [
-   // Tab(icon: Icon(Icons.card_travel)),
-    const Tab(text: 'All' ),
+    // Tab(icon: Icon(Icons.card_travel)),
+    const Tab(text: 'All'),
     const Tab(text: 'Abu Dhabi'),
     const Tab(text: 'Dubai'),
     const Tab(text: 'Sharjah'),
@@ -35,7 +35,7 @@ class _TabBarDemoState extends State<TabBarDemo>
     // TODO: implement initState
     super.initState();
     // Create TabController for getting the index of current tab
-    _controller = TabController(length: list.length, vsync: this );
+    _controller = TabController(length: list.length, vsync: this);
 
     _controller!.addListener(() {
       setState(() {
@@ -62,47 +62,17 @@ class _TabBarDemoState extends State<TabBarDemo>
           centerTitle: true,
           title: Text('Trips'),
         ),
-
         body: TabBarView(
           controller: _controller,
-          children: [
-            TripsScreen(),
-            Center(
-                child: Text(
-                 '',
-                  style: TextStyle(fontSize: 40),
-                )),
-            Center(
-                child: Text(
-                  '',
-                  style: TextStyle(fontSize: 40),
-                )),
-            Center(
-                child: Text(
-                  '',
-                  style: TextStyle(fontSize: 40),
-                )),
-            Center(
-                child: Text(
-                  '',
-                  style: TextStyle(fontSize: 40),
-                )),
-            Center(
-                child: Text(
-                  '',
-                  style: TextStyle(fontSize: 40),
-                )),
-            Center(
-                child: Text(
-                  '',
-                  style: TextStyle(fontSize: 40),
-                )),
-            Center(
-                child: Text(
-                  '',
-                  style: TextStyle(fontSize: 40),
-                )),
-
+          children: const [
+            TripsScreen(emirateId: '63335d267384867af876cc52'),
+            TripsScreen(emirateId: '6334337ad417047e9deae917'),
+            TripsScreen(emirateId: '6334337ad417047e9deae917'),
+            TripsScreen(emirateId: '6334337ad417047e9deae917'),
+            TripsScreen(emirateId: '6334337ad417047e9deae917'),
+            TripsScreen(emirateId: '6334337ad417047e9deae917'),
+            TripsScreen(emirateId: '63335d267384867af876cc52'),
+            TripsScreen(emirateId: '63335d267384867af876cc52'),
           ],
         ),
       ),

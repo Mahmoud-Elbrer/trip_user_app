@@ -19,21 +19,21 @@ class BottomNavigationScreen extends StatefulWidget {
 class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.w600);
-  static const List<Widget> _widgetOptions = <Widget>[
-    Text(
-      'Home',
-      style: optionStyle,
-    ),
-    Text(
-      'Favorite',
-      style: optionStyle,
-    ),
-    Text(
-      'Profile',
-      style: optionStyle,
-    ),
-  ];
+      TextStyle(fontSize: 25, fontWeight: FontWeight.w600);
+  // static const List<Widget> _widgetOptions = <Widget>[
+  //   Text(
+  //     'Home',
+  //     style: optionStyle,
+  //   ),
+  //   Text(
+  //     'Favorite',
+  //     style: optionStyle,
+  //   ),
+  //   Text(
+  //     'Profile',
+  //     style: optionStyle,
+  //   ),
+  // ];
 
   @override
   Widget build(BuildContext context) {
@@ -71,14 +71,17 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
                 GButton(
                   icon: Icons.home,
                   text: 'Home',
+                  textStyle: TextStyle(fontSize: 14),
                 ),
                 GButton(
                   icon: Icons.favorite_border,
                   text: 'Favorite',
+                  textStyle: TextStyle(fontSize: 14),
                 ),
                 GButton(
                   icon: Icons.person_outlined,
                   text: 'Profile',
+                  textStyle: TextStyle(fontSize: 14),
                 ),
               ],
               selectedIndex: _selectedIndex,

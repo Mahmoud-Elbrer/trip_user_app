@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'dart:developer';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 
 import 'package:trip_user_app/src/pages/bottom_navigation_screen.dart';
@@ -19,6 +21,17 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
+
+    FirebaseMessaging.onMessage.listen(
+          (RemoteMessage message) {
+        debugPrint("onMessage:");
+        log("onMessage: $message");
+        final snackBar =
+        SnackBar(content: Text(message.notification?.title ?? ""));
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      },
+    );
+
     // TODO: implement initState
     super.initState();
     Timer(const Duration(seconds: 1), () {

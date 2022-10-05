@@ -7,8 +7,8 @@ Future<bool?> showAlert(context, String? title, String? desc) {
   return Alert(
     context: context,
     type: AlertType.error,
-    title: title,
-    desc: desc,
+    title: title!,
+    desc: desc!,
     buttons: [
       DialogButton(
         color: Theme.of(context).primaryColor,

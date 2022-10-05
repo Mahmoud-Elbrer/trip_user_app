@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../controllers/trip_provider.dart';
+import '../models/trip_model.dart';
 import '../pages/detail_trip_screen.dart';
 
 class TripHomeWidget extends StatelessWidget {
@@ -7,27 +10,35 @@ class TripHomeWidget extends StatelessWidget {
 
   final String title;
 
-  const TripHomeWidget(
-      {super.key, required this.imagePath, required this.title});
+  const TripHomeWidget({super.key, required this.imagePath, required this.title});
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 10),
-      child: GestureDetector(
-        onTap: (){
-          Navigator.pushNamed(context, DetailTripScreen.routeName) ;
-        },
-        child: Container(
-          width: 249,
-          height: 411,
-          decoration: const BoxDecoration(
-              color: Colors.grey,
-              borderRadius: BorderRadius.all(
-                Radius.circular(23),
-              )),
-          child: Image.asset(imagePath,
-              fit: BoxFit.fitHeight, filterQuality: FilterQuality.high),
+    final tripModel = Provider.of<TripModel>(context);
+    return Container(
+      child: Padding(
+        padding: const EdgeInsets.only(left: 10),
+        child: GestureDetector(
+          onTap: (){
+            Navigator.push(context, MaterialPageRoute(builder: (context){
+              return DetailTripScreen(tripModel) ;
+            })) ;
+           // Navigator.pushNamed(context, DetailTripScreen(tripModel)  ) ;
+          },
+          child: Container(
+            width: 249,
+            height: 411,
+            decoration: const BoxDecoration(
+                color: Colors.grey,
+                borderRadius: BorderRadius.all(
+                  Radius.circular(12),
+                )),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: Image.asset(imagePath,
+                  fit: BoxFit.fitHeight, filterQuality: FilterQuality.high),
+            ),
+          ),
         ),
       ),
     );

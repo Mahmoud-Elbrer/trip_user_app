@@ -87,145 +87,152 @@ class _LoginScreenState extends State<LoginScreen> {
         child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(24.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(
-                  height: 40,
-                ),
-                const Text("Sign In",
-                    style: TextStyle(
-                        color: Color(0xff000000),
-                        fontWeight: FontWeight.w700,
-                        fontFamily: "Montserrat",
-                        fontStyle: FontStyle.normal,
-                        fontSize: 36.0),
-                    textAlign: TextAlign.left),
-                const SizedBox(
-                  height: 20,
-                ),
-                // email
-                const Text("email",
-                    style: TextStyle(
-                        color: Color(0xff000000),
-                        fontWeight: FontWeight.w500,
-                        fontFamily: "Montserrat",
-                        fontStyle: FontStyle.normal,
-                        fontSize: 12.0),
-                    textAlign: TextAlign.left),
-                const SizedBox(
-                  height: 8,
-                ),
-                CustomEmailField(
-                    text: 'Email',
-                    controller: _emailController,
-                    focusNode: _passwordFocusNode),
-                const SizedBox(
-                  height: 10,
-                ),
-                const Text("Password",
-                    style: TextStyle(
-                        color: Color(0xff000000),
-                        fontWeight: FontWeight.w500,
-                        fontFamily: "Montserrat",
-                        fontStyle: FontStyle.normal,
-                        fontSize: 12.0),
-                    textAlign: TextAlign.left),
-                const SizedBox(
-                  height: 8,
-                ),
-                RoundedPasswordTextField(
-                  text: 'Password',
-                  controller: _passwordController,
-                  focusOnFieldSubmitted: _passwordFocusNode,
-                ),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(
+                    height: 40,
+                  ),
+                  const Text("Sign In",
+                      style: TextStyle(
+                          color: Color(0xff000000),
+                          fontWeight: FontWeight.w700,
+                          fontFamily: "Montserrat",
+                          fontStyle: FontStyle.normal,
+                          fontSize: 36.0),
+                      textAlign: TextAlign.left),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  // email
+                  const Text("email",
+                      style: TextStyle(
+                          color: Color(0xff000000),
+                          fontWeight: FontWeight.w500,
+                          fontFamily: "Montserrat",
+                          fontStyle: FontStyle.normal,
+                          fontSize: 12.0),
+                      textAlign: TextAlign.left),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  CustomEmailField(
+                      text: 'Email',
+                      controller: _emailController,
+                      focusNode: _passwordFocusNode),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  const Text("Password",
+                      style: TextStyle(
+                          color: Color(0xff000000),
+                          fontWeight: FontWeight.w500,
+                          fontFamily: "Montserrat",
+                          fontStyle: FontStyle.normal,
+                          fontSize: 12.0),
+                      textAlign: TextAlign.left),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  RoundedPasswordTextField(
+                    text: 'Password',
+                    controller: _passwordController,
+                    focusOnFieldSubmitted: _passwordFocusNode,
+                  ),
 
-                RoundedButton(
-                    text: 'Sign Up',
-                    press: () async {
-                      LoginModel loginModel =
-                          LoginModel(email: email, password: password);
-                      var loginJsonModel = jsonEncode(loginModel);
-                     // await EasyLoading.showSuccess('Great Success!');
-                      //  await EasyLoading.dismiss();
-                      // asyLoading.showError('Failed with Error');
-                      await EasyLoading.show(
-                        status: 'loading...',
-                        maskType: EasyLoadingMaskType.black,
-                      );
-                      login(context, loginJsonModel);
-                      Navigator.pushReplacementNamed(context, BottomNavigationScreen.routeName);
-                    }),
+                  RoundedButton(
+                      text: 'Sign Up',
+                      press: () async {
+                        if (_formKey.currentState!.validate()) {
+                          email =  _emailController!.text ;
+                          password =  _passwordController!.text ;
+                          LoginModel loginModel =
+                              LoginModel(email: email, password: password);
+                          var loginJsonModel = jsonEncode(loginModel);
+                          // await EasyLoading.showSuccess('Great Success!');
+                          //  await EasyLoading.dismiss();
+                          // asyLoading.showError('Failed with Error');
+                          await EasyLoading.show(
+                            status: 'loading...',
+                            maskType: EasyLoadingMaskType.black,
+                          );
+                          login(context, loginJsonModel);
 
-                const SizedBox(
-                  height: 12,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    Text("Or Sign By :",
-                        style: TextStyle(
-                            color: Color(0xff000000),
-                            fontWeight: FontWeight.w400,
-                            fontFamily: "Montserrat",
-                            fontStyle: FontStyle.normal,
-                            fontSize: 14.0),
-                        textAlign: TextAlign.left),
-                  ],
-                ),
-                const SizedBox(
-                  height: 2,
-                ),
-                const RoundedButtonSignWith(
-                    text: 'Sign up with Apple',
-                    backgroundColor: Color(0xff000000),
-                    textColor: Color(0xffffffff),
-                    iconPath: 'apple.svg'),
-                const RoundedButtonSignWith(
-                    text: 'Sign up with Facebook',
-                    backgroundColor: Color(0xff3a5998),
-                    textColor: Color(0xffffffff),
-                    iconPath: 'facebook.svg'),
-                const RoundedButtonSignWith(
-                    text: 'Sign up with gmail',
-                    backgroundColor: Color(0xfff6f2e9),
-                    textColor: Color(0xff000000),
-                    iconPath: 'email.svg'),
+                        } else {}
+                      }),
 
-                // Already have an account? Log In
-                GestureDetector(
-                  onTap: (){
-                    Navigator.pushNamed(context, SignUpScreen.routeName ) ;
-                  },
-                  child: Container(
-                    margin: const EdgeInsets.symmetric(vertical: 25),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        RichText(
-                            text: const TextSpan(children: [
-                          TextSpan(
-                              style: TextStyle(
-                                  color: Color(0xff000000),
-                                  fontWeight: FontWeight.w400,
-                                  fontFamily: "Montserrat",
-                                  fontStyle: FontStyle.normal,
-                                  fontSize: 16.0),
-                              text: "Already have an account ? "),
-                          TextSpan(
-                              style: TextStyle(
-                                  color: Color(0xffb2002d),
-                                  fontWeight: FontWeight.w700,
-                                  fontFamily: "Montserrat",
-                                  fontStyle: FontStyle.normal,
-                                  fontSize: 16.0),
-                              text: "Sign Up")
-                        ])),
-                      ],
+                  const SizedBox(
+                    height: 12,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      Text("Or Sign By :",
+                          style: TextStyle(
+                              color: Color(0xff000000),
+                              fontWeight: FontWeight.w400,
+                              fontFamily: "Montserrat",
+                              fontStyle: FontStyle.normal,
+                              fontSize: 14.0),
+                          textAlign: TextAlign.left),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 2,
+                  ),
+                  const RoundedButtonSignWith(
+                      text: 'Sign up with Apple',
+                      backgroundColor: Color(0xff000000),
+                      textColor: Color(0xffffffff),
+                      iconPath: 'apple.svg'),
+                  const RoundedButtonSignWith(
+                      text: 'Sign up with Facebook',
+                      backgroundColor: Color(0xff3a5998),
+                      textColor: Color(0xffffffff),
+                      iconPath: 'facebook.svg'),
+                  const RoundedButtonSignWith(
+                      text: 'Sign up with gmail',
+                      backgroundColor: Color(0xfff6f2e9),
+                      textColor: Color(0xff000000),
+                      iconPath: 'email.svg'),
+
+                  // Already have an account? Log In
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, SignUpScreen.routeName);
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.symmetric(vertical: 25),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          RichText(
+                              text: const TextSpan(children: [
+                            TextSpan(
+                                style: TextStyle(
+                                    color: Color(0xff000000),
+                                    fontWeight: FontWeight.w400,
+                                    fontFamily: "Montserrat",
+                                    fontStyle: FontStyle.normal,
+                                    fontSize: 16.0),
+                                text: "Already have an account ? "),
+                            TextSpan(
+                                style: TextStyle(
+                                    color: Color(0xffb2002d),
+                                    fontWeight: FontWeight.w700,
+                                    fontFamily: "Montserrat",
+                                    fontStyle: FontStyle.normal,
+                                    fontSize: 16.0),
+                                text: "Sign Up")
+                          ])),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
@@ -235,32 +242,37 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future<void> login(BuildContext context, var loginJsonModel) async {
     try {
-      Map<String, dynamic> response =
-          await (Provider.of<AuthenticationProvider>(context, listen: false)
-              .login(loginJsonModel) as Future<Map<String, dynamic>>);
+      Map<String, dynamic>? response =
+          await Provider.of<AuthenticationProvider>(context, listen: false).login(loginJsonModel);
 
-      if (response['status'] == true) {
+
+      print("after res ");
+      print(response!);
+
+      if (response['success']! == true) {
         // await _progressDialog.hide();
-        successToast(context, getTranslationLanguage(response['description'])!);
-        saveSeenAuth();
-        Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+        EasyLoading.showSuccess('Done');
+       // showAlert(context, getTranslated(context, 'alert'), getTranslationLanguage(response['message']));
+        //successToast(context, getTranslationLanguage(response['message'])!);
+        //saveSeenAuth();
+        Navigator.pushReplacementNamed(context, BottomNavigationScreen.routeName);
       } else {
         // await _progressDialog.hide();
-        EasyLoading.showError('Failed with Error');
-        showAlert(context, getTranslated(context, 'alert'),
-            getTranslationLanguage(response['description']));
+        EasyLoading.showError(response['message']);
+       // showAlert(context, getTranslated(context, 'alert'), getTranslationLanguage(response['message']));
       }
     } on HttpException catch (error) {
       EasyLoading.showError('Failed with Error');
       error.toString();
       // await _progressDialog.hide();
-      showAlert(context, getTranslated(context, 'alert'),
-          getTranslated(context, 'error_occurred'));
+      // showAlert(context, getTranslated(context, 'alert'), getTranslated(context, 'error_occurred'));
     } catch (error) {
-      EasyLoading.showError('check_for_internet_connection');
+      print('this it my error');
+      print(error);
+      EasyLoading.showError('Failed with Error');
+      //EasyLoading.showError('check_for_internet_connection');
       // await _progressDialog.hide();
-      showAlert(context, getTranslated(context, 'alert'),
-          getTranslated(context, 'check_for_internet_connection'));
+    //  showAlert(context, getTranslated(context, 'alert'), getTranslated(context, 'check_for_internet_connection'));
     }
   }
 }

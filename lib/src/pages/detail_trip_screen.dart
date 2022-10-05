@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
+import 'package:trip_user_app/src/pages/checkout_out_screen.dart';
 
 import '../../config/routes/app_routes.dart';
 import '../elements/rounded_button.dart';
+import '../models/trip_model.dart';
 import '../utilitis/assets_manger.dart';
 
 class DetailTripScreen extends StatefulWidget {
   static const String routeName = Routes.detailTripRoute;
-
-  const DetailTripScreen({Key? key}) : super(key: key);
+ final TripModel tripModel ;
+  const DetailTripScreen( this.tripModel, {Key? key}) : super(key: key);
 
   @override
   State<DetailTripScreen> createState() => _DetailTripScreenState();
@@ -45,9 +47,9 @@ class _DetailTripScreenState extends State<DetailTripScreen> {
       });
     }
   }
-
   @override
   Widget build(BuildContext context) {
+   // tripModel = ModalRoute.of(context)!.settings.arguments as TripModel;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Rihla'),
@@ -73,8 +75,8 @@ class _DetailTripScreenState extends State<DetailTripScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text("Caribbean",
-                              style: TextStyle(
+                           Text(widget.tripModel.emirate!.name.toString(),
+                              style: const TextStyle(
                                   color: Color(0xff003053),
                                   fontWeight: FontWeight.w700,
                                   fontFamily: "PlayfairDisplay",
@@ -155,7 +157,9 @@ class _DetailTripScreenState extends State<DetailTripScreen> {
 
                           selectQuestContainer(),
 
-                          const RoundedButton(text: 'Next'),
+                           RoundedButton(text: 'Next'  , press: (){
+                             Navigator.pushNamed(context, CheckoutOutScreen.routeName) ;
+                           },),
                         ],
                       )
                     ],
