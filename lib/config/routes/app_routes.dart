@@ -6,6 +6,7 @@ import '../../src/pages/detail_trip_screen.dart';
 import '../../src/pages/home_screen.dart';
 import '../../src/pages/login_screen.dart';
 import '../../src/pages/ondoraing.dart';
+import '../../src/pages/payment.dart';
 import '../../src/pages/profile_screen.dart';
 import '../../src/pages/singup_screen.dart';
 import '../../src/pages/splash_screen.dart';
@@ -34,7 +35,7 @@ class AppRoutes {
   static Route? onGenerateRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
       case Routes.initialRoute:
-        return MaterialPageRoute(builder: ((context) => const BottomNavigationScreen())); // SplashScreen
+        return MaterialPageRoute(builder: ((context) =>  Payment())); // SplashScreen
 
       case Routes.bottomNavigationRoute:
         return MaterialPageRoute(

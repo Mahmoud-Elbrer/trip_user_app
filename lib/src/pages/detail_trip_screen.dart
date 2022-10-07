@@ -163,7 +163,7 @@ class _DetailTripScreenState extends State<DetailTripScreen> {
                         ],
                       )
                     ],
-                  ),
+                  ), 
                 ),
               )
             ],
