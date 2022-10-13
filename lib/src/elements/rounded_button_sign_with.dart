@@ -6,7 +6,7 @@ import '../utilitis/assets_manger.dart';
 
 class RoundedButtonSignWith extends StatelessWidget {
   final String? text;
-  final Function? press;
+  final VoidCallback? press;
   final String? iconPath;
   final Color color, textColor , backgroundColor;
 
@@ -26,7 +26,7 @@ class RoundedButtonSignWith extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top :  10),
       child: InkWell(
-        onTap: press as void Function()?,
+        onTap: press ,
         child: Center(
           child: Container(
             padding: const EdgeInsets.symmetric(vertical: 14),

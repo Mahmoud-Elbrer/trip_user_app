@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import '../utilitis/URL.dart';
 import '../models/login_model.dart';
 import 'package:http/http.dart' as http;
@@ -157,6 +159,30 @@ class AuthenticationProvider extends ChangeNotifier {
       throw error;
     }
 
+  }
+
+
+
+  final GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email']);
+
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+   googleSigInMethode() async {
+    final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+    // now well sign in firebase
+    GoogleSignInAuthentication googleSignInAuthentication =
+    await googleUser!.authentication;
+    final authCredential = GoogleAuthProvider.credential(
+      accessToken: googleSignInAuthentication.accessToken,
+      idToken: googleSignInAuthentication.idToken,
+    );
+    //  UserCredential userCredential =
+    await _auth.signInWithCredential(authCredential).then((value) {
+      print("this is value ");
+      print(value);
+      // todo : save data to api backend
+      //saveUser(value);
+    });
   }
 
 }

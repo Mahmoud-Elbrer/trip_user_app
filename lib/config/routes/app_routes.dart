@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../src/pages/bottom_navigation_screen.dart';
 import '../../src/pages/checkout_out_screen.dart';
 import '../../src/pages/detail_trip_screen.dart';
+import '../../src/pages/favorite_screen.dart';
 import '../../src/pages/home_screen.dart';
 import '../../src/pages/login_screen.dart';
 import '../../src/pages/ondoraing.dart';
@@ -11,6 +12,7 @@ import '../../src/pages/profile_screen.dart';
 import '../../src/pages/singup_screen.dart';
 import '../../src/pages/splash_screen.dart';
 import '../../src/pages/test_trip.dart';
+import '../../src/pages/tour_programs.dart';
 import '../../src/pages/trips_screen.dart';
 import '../../src/utilitis/app_strings.dart';
 import '../../src/pages/emirates_trip_screen.dart';
@@ -29,13 +31,14 @@ class Routes {
   static const String signUpRoute = '/SignUpScreen';
   static const String tabBarRoute = '/TabBarDemo';
   static const String checkoutOutRoute = '/CheckoutOutScreen';
+  static const String tourProgramsRoute = '/TourProgramsScreen';
 }
 
 class AppRoutes {
   static Route? onGenerateRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
       case Routes.initialRoute:
-        return MaterialPageRoute(builder: ((context) =>  Payment())); // SplashScreen
+        return MaterialPageRoute(builder: ((context) => const BottomNavigationScreen())); // SplashScreen
 
       case Routes.bottomNavigationRoute:
         return MaterialPageRoute(
@@ -68,8 +71,11 @@ class AppRoutes {
         return MaterialPageRoute(builder: ((context) => const EmiratesTripScreen()));
 
 
-      case Routes.checkoutOutRoute:
-        return MaterialPageRoute(builder: ((context) => const CheckoutOutScreen()));
+      // case Routes.checkoutOutRoute:
+      //   return MaterialPageRoute(builder: ((context) => const CheckoutOutScreen()));
+
+      case Routes.tourProgramsRoute:
+        return MaterialPageRoute(builder: ((context) => const TourProgramsScreen()));
 
 
 

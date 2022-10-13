@@ -4,13 +4,11 @@ import 'package:provider/provider.dart';
 import '../controllers/trip_provider.dart';
 import '../models/trip_model.dart';
 import '../pages/detail_trip_screen.dart';
+import '../utilitis/URL.dart';
 
 class TripHomeWidget extends StatelessWidget {
-  final String imagePath;
+  const TripHomeWidget({Key? key}) : super(key: key);
 
-  final String title;
-
-  const TripHomeWidget({super.key, required this.imagePath, required this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +33,8 @@ class TripHomeWidget extends StatelessWidget {
                 )),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(12),
-              child: Image.asset(imagePath,
+              // tripModel.images[0].imageUrl.toString()
+              child: Image.network(Url.baseTripsImageUrl + tripModel.images![0].imageUrl.toString() ,
                   fit: BoxFit.fitHeight, filterQuality: FilterQuality.high),
             ),
           ),

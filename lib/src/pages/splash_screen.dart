@@ -10,6 +10,7 @@ import 'package:trip_user_app/src/pages/singup_screen.dart';
 
 import '../utilitis/app_strings.dart';
 import '../utilitis/assets_manger.dart';
+import '../utilitis/is_user_login.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -34,9 +35,11 @@ class _SplashScreenState extends State<SplashScreen> {
 
     // TODO: implement initState
     super.initState();
-    Timer(const Duration(seconds: 1), () {
-      Navigator.pushReplacementNamed(context, LoginScreen.routeName);
-    });
+    isUserLogin(context);
+    // Timer(const Duration(seconds: 2), () {
+    //
+    //   Navigator.pushReplacementNamed(context, LoginScreen.routeName);
+    // });
   }
 
   @override

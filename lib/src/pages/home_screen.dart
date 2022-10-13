@@ -1,14 +1,13 @@
-import 'package:carousel_slider/carousel_controller.dart';
-import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:trip_user_app/src/models/trip_program_model.dart';
+import 'package:trip_user_app/src/pages/tour_programs.dart';
+import 'package:trip_user_app/src/pages/trips_screen.dart';
 import '../../config/routes/app_routes.dart';
 import '../controllers/trip_program_provider.dart';
 import '../elements/trip_program_widget.dart';
 import 'emirates_trip_screen.dart';
-import '../elements/rounded_textfield.dart';
 import '../elements/trip_home_widget.dart';
 import '../utilitis/assets_manger.dart';
 import '../controllers/trip_provider.dart';
@@ -27,9 +26,9 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   static const int take = 10;
 
-  RefreshController _refreshControllerDoctor =
+  final RefreshController _refreshControllerDoctor =
       RefreshController(initialRefresh: false);
-  RefreshController _refreshControllerDoctor2 =
+  final RefreshController _refreshControllerDoctor2 =
       RefreshController(initialRefresh: false);
 
   @override
@@ -94,8 +93,7 @@ class _HomeScreenState extends State<HomeScreen> {
       });
       await Future.delayed(const Duration(milliseconds: 1000));
       // Provider.of<TripProvider>(context, listen: false).clearData();
-      Provider.of<TripProvider>(context, listen: false)
-          .fetchTrip(take: take, skip: 0);
+      Provider.of<TripProvider>(context, listen: false).fetchTrip(take: take, skip: 0);
 
       setState(() {
         isLoadingData = false;
@@ -137,6 +135,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
+        leading: const Icon(Icons.search , color: Colors.black,) ,
         title: const Text("Rihla",
             style: TextStyle(
                 color: Color(0xff02376d),
@@ -155,11 +154,16 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   // Rectangle 1
 
+                //  const RoundedTextField(text: 'Search trip'),
+                  // RoundedTextField(text: translation(context).homePage),
+
+                  const SizedBox(
+                    height: 10,
+                  ),
+
                   imageSlider(),
 
-                  const RoundedTextField(text: 'Search trip'),
-
-                  rowTextShowAll(),
+                  rowTextShowAll(text: 'Programs' ,index: 1),
 
                   tripProgram(tripProgramProvider),
 
@@ -176,9 +180,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   //   ],
                   // ),
 
-                  rowTextShowAll(),
+                  rowTextShowAll(text: 'Trips' ,index: 2),
 
-                  Container(
+                  SizedBox(
                     height: 411,
                     child: SmartRefresher(
                       physics: const BouncingScrollPhysics(),
@@ -209,11 +213,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       itemBuilder: (context, position) {
                                         return ChangeNotifierProvider.value(
                                           value: tripProvider[position],
-                                          child: const TripHomeWidget(
-                                            title: 'Dubai',
-                                            imagePath:
-                                                'assets/images/image.jpg',
-                                          ),
+                                          child:  TripHomeWidget(),
                                         );
                                       },
                                       itemCount: tripProvider.length,
@@ -277,36 +277,43 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget rowTextShowAll() {
-    return Padding(
-      padding: const EdgeInsets.only(top: 15, bottom: 10, left: 5, right: 5),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
+  Widget rowTextShowAll({String? text ,int? index}) {
+    return GestureDetector(
+      onTap: (){
+        if(index == 1) {
+           Navigator.pushNamed(context, TourProgramsScreen.routeName);
+        }else {
+          Navigator.pushNamed(context, EmiratesTripScreen.routeName);
+        //Navigator.pushNamed(context, TripsScreen);
+        }
+      },
+      child: SizedBox(
+        child: Padding(
+          padding: const EdgeInsets.only(top: 15, bottom: 10, left: 5, right: 5),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
 // Destinations
-          Text("Destinations",
-              style: TextStyle(
-                  color: Theme.of(context).primaryColor,
-                  fontWeight: FontWeight.w500,
-                  //fontFamily: "Poppins",
-                  fontStyle: FontStyle.normal,
-                  fontSize: 20.0),
-              textAlign: TextAlign.left),
+              Text(text!,
+                  style: TextStyle(
+                      color: Theme.of(context).primaryColor,
+                      fontWeight: FontWeight.w500,
+                      //fontFamily: "Poppins",
+                      fontStyle: FontStyle.normal,
+                      fontSize: 20.0),
+                  textAlign: TextAlign.left),
 // See All
-          GestureDetector(
-            onTap: () {
-              Navigator.pushNamed(context, EmiratesTripScreen.routeName);
-            },
-            child: Text("See All",
-                style: TextStyle(
-                    color: Theme.of(context).primaryColor,
-                    fontWeight: FontWeight.w500,
-                    //fontFamily: "Poppins",
-                    fontStyle: FontStyle.normal,
-                    fontSize: 15.0),
-                textAlign: TextAlign.left),
-          )
-        ],
+              Text("See All",
+                  style: TextStyle(
+                      color: Theme.of(context).primaryColor,
+                      fontWeight: FontWeight.w500,
+                      //fontFamily: "Poppins",
+                      fontStyle: FontStyle.normal,
+                      fontSize: 15.0),
+                  textAlign: TextAlign.left)
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -322,7 +329,7 @@ class _HomeScreenState extends State<HomeScreen> {
               CarouselSlider(
                 carouselController: _controller,
                 items: imgList
-                    .map((item) => Container(
+                    .map((item) => SizedBox(
                           height: 300,
                           child: Image.network(item,
                               fit: BoxFit.cover, width: 1000),
@@ -336,7 +343,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     aspectRatio: 16 / 9,
                     autoPlayCurve: Curves.easeInOut,
                     enableInfiniteScroll: true,
-                    autoPlayAnimationDuration: const Duration(milliseconds: 800),
+                    autoPlayAnimationDuration:
+                        const Duration(milliseconds: 800),
                     viewportFraction: 0.8,
                     onPageChanged: (index, reason) {
                       setState(() {
@@ -354,14 +362,18 @@ class _HomeScreenState extends State<HomeScreen> {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Text("Doubai -  UEA",
-                      style: const TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w500,
-                          //fontFamily: "Poppins",
-                          fontStyle: FontStyle.normal,
-                          fontSize: 20.0),
-                      textAlign: TextAlign.left),
+                  Container(
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(7) ,color: Colors.black26,),
+                    padding: EdgeInsets.only(left: 20 ,right: 20),
+                    child: const Text("Doubai -  UEA",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w500,
+                            //fontFamily: "Poppins",
+                            fontStyle: FontStyle.normal,
+                            fontSize: 20.0),
+                        textAlign: TextAlign.left),
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: imgList.asMap().entries.map((entry) {
@@ -374,12 +386,10 @@ class _HomeScreenState extends State<HomeScreen> {
                               vertical: 8.0, horizontal: 4.0),
                           decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              color: (Theme.of(context).primaryColor ==
-                                          Brightness.light
+                              color: (Theme.of(context).primaryColor ==  Brightness.light
                                       ? Colors.white
                                       : Colors.white)
-                                  .withOpacity(
-                                      _current == entry.key ? 0.9 : 0.4)),
+                                  .withOpacity(_current == entry.key ? 0.9 : 0.4)),
                         ),
                       );
                     }).toList(),
@@ -394,7 +404,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget tripProgram(List<TripProgramModel> tripProgramProvider) {
-    return Container(
+    return SizedBox(
       height: 211,
       child: SmartRefresher(
         physics: const BouncingScrollPhysics(),

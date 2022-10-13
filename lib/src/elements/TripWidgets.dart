@@ -1,13 +1,29 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
+import 'package:trip_user_app/src/utilitis/toast.dart';
 
+import '../controllers/favorite_provider.dart';
 import '../pages/detail_trip_screen.dart';
 
-class TripWidgets extends StatelessWidget {
+class TripWidgets extends StatefulWidget {
   final String imagePath ;
   final String text ;
 
   const TripWidgets({super.key, required this.imagePath, required this.text});
+
+  @override
+  State<TripWidgets> createState() => _TripWidgetsState();
+}
+
+class _TripWidgetsState extends State<TripWidgets> {
+
+
+  bool isLoadingFavorite = false;
+  bool isFavoriteDoctor = false;
+
 
 
   @override
@@ -24,7 +40,7 @@ class TripWidgets extends StatelessWidget {
             Container(
               width: double.infinity,
               height: 240,
-              child: Image.asset(imagePath ,fit:  BoxFit.fitWidth),
+              child: Image.asset(widget.imagePath ,fit:  BoxFit.fitWidth),
             ),
             Container(
               width: double.infinity,
@@ -37,7 +53,7 @@ class TripWidgets extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                       Text(text,
+                       Text(widget.text,
                           style: const  TextStyle(
                               color: Color(0xff000000),
                               fontWeight: FontWeight.w500,
@@ -49,7 +65,12 @@ class TripWidgets extends StatelessWidget {
                       rowDetail(imageUrl:  'assets/icons/location_trip.svg' , text:  'Jumeirah Beach Dubai'),
                     ],
                   ),
-                  SvgPicture.asset( 'assets/icons/empty_heart.svg' , height: 20 , width: 20,) ,
+                  GestureDetector( onTap: (){
+                    setState(() {
+                      isLoadingFavorite = true;
+                    });
+                    addToFavorite(context, "widget.doctorDetailsModel!.id");
+                  }, child: Container(child: SvgPicture.asset( 'assets/icons/empty_heart.svg' , height: 20 , width: 20,))) ,
                 ],
               ),
             ),
@@ -57,6 +78,8 @@ class TripWidgets extends StatelessWidget {
         ),
       ),
     );
+
+
   }
 
   Widget rowDetail({required String imageUrl , required  String  text  }){
@@ -78,5 +101,48 @@ class TripWidgets extends StatelessWidget {
         ],
       ),
     ) ;
+  }
+
+
+  Future<void> addToFavorite(BuildContext context, var doctorId) async {
+    try {
+      Map<String, dynamic> response =
+      await (Provider.of<ProviderFavorite>(context, listen: false)
+          .addFavoriteTripApi(doctorId) as Future<Map<String, dynamic>>);
+      ////print("res s");
+      ////print(response);
+      if (response['code'] == 200 || response['code'] < 300) {
+        // SharedPreferences preferences = await SharedPreferences.getInstance();
+        //  preferences.setBool("seenAuth" , true);
+        // await _progressDialog.hide();
+        successToast(context, 'description');
+        setState(() {
+          isFavoriteDoctor = true;
+        });
+      } else {
+        // await _progressDialog.hide();
+      //  failToast(context, getTranslationLanguage(response['description'])!);
+       // showAlert(context, getTranslated(context, 'alert'), getTranslationLanguage(response['description']));
+      }
+
+      setState(() {
+        isLoadingFavorite = false;
+      });
+    } on HttpException catch (error) {
+      error.toString();
+      setState(() {
+        isLoadingFavorite = false;
+      });
+      // await _progressDialog.hide();
+     // showAlert(context, getTranslated(context, 'alert'), getTranslated(context, 'error_occurred'));
+    } catch (error) {
+      setState(() {
+        isLoadingFavorite = false;
+      });
+      // await _progressDialog.hide();
+      //showAlert(context, getTranslated(context, 'alert'), getTranslated(context, 'check_for_internet_connection'));
+      ////print("fail 2");
+      ////print(errorMessage);
+    }
   }
 }

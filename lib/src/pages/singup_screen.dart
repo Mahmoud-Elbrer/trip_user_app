@@ -1,23 +1,20 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
 import 'package:trip_user_app/src/pages/bottom_navigation_screen.dart';
 import 'package:trip_user_app/src/pages/login_screen.dart';
 import '../../config/routes/app_routes.dart';
-import '../../localization/language_constants.dart';
 import '../controllers/authentication_provider.dart';
 import '../elements/custom_email_textfield.dart';
-
 import '../elements/rounded_button.dart';
 import '../elements/rounded_button_sign_with.dart';
 import '../elements/rounded_name_textfield.dart';
 import '../elements/rounded_password_textfield.dart';
 import '../models/signup_model.dart';
 import '../utilitis/alert_dialog.dart';
-import '../utilitis/get_trans_language.dart';
+import '../utilitis/seenAuth.dart';
 import '../utilitis/toast.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -235,7 +232,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
       if (response!['success'] == true) {
         EasyLoading.showSuccess('Done');
-
+        saveSeenAuth();
         Navigator.pushReplacementNamed(context, BottomNavigationScreen.routeName);
         // await _progressDialog.hide();
         //successToast(context, getTranslationLanguage(response['message'])!);

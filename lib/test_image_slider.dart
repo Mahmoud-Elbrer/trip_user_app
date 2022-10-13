@@ -1,63 +1,37 @@
-import 'dart:developer';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:google_static_maps_controller/google_static_maps_controller.dart';
 
-
-class MyAppFirebase extends StatefulWidget {
-  const MyAppFirebase({Key? key}) : super(key: key);
-
-  @override
-  State<MyAppFirebase> createState() => _MyAppFirebaseState();
-}
-
-class _MyAppFirebaseState extends State<MyAppFirebase> {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  @override
-  void initState() {
-    FirebaseMessaging.onMessage.listen(
-          (RemoteMessage message) {
-        debugPrint("onMessage:");
-        log("onMessage: $message");
-        final snackBar =
-        SnackBar(content: Text(message.notification?.title ?? ""));
-        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      },
-    );
-    super.initState();
-  }
+class MyHomePage extends StatelessWidget {
+  const MyHomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(widget.title),
-        ),
-        body: Center(
-
-        ),
-       );
+      body: Column(
+        children: [
+          Container(
+            height: 300,
+            child: StaticMap(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              scaleToDevicePixelRatio: true,
+              googleApiKey: "AIzaSyDQ2c_pOSOFYSjxGMwkFvCVWKjYOM9siow",
+              visible: const [
+                GeocodedLocation.address('Santa Monica Pier'),
+              ],
+              zoom: 14,
+              markers: const <Marker>[
+                Marker(
+                  color: Colors.red,
+                  locations: [
+                    GeocodedLocation.latLng(34.012849, -118.501478),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

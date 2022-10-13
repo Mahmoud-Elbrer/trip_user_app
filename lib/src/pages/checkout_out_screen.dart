@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:trip_user_app/src/models/trip_model.dart';
+import 'package:trip_user_app/src/pages/payment_screen.dart';
 import '../../config/routes/app_routes.dart';
+import '../controllers/stripe_payment.dart';
 import '../elements/custom_email_textfield.dart';
 import '../elements/custom_phone_number_textfield.dart';
 import '../elements/rounded_button.dart';
@@ -9,7 +12,16 @@ import '../utilitis/assets_manger.dart';
 
 class CheckoutOutScreen extends StatefulWidget {
   static const String routeName = Routes.checkoutOutRoute;
-  const CheckoutOutScreen({Key? key}) : super(key: key);
+  final TripModel tripModel;
+  final String selectedDate;
+
+  final TimeOfDay selectedTime;
+
+  const CheckoutOutScreen(
+      {super.key,
+      required this.tripModel,
+      required this.selectedDate,
+      required this.selectedTime});
 
   @override
   State<CheckoutOutScreen> createState() => _CheckoutOutScreenState();
@@ -17,8 +29,25 @@ class CheckoutOutScreen extends StatefulWidget {
 
 enum Residency { residency, visitor }
 
+enum PaymentBy { visa, master }
+
 class _CheckoutOutScreenState extends State<CheckoutOutScreen> {
   Residency residencySelected = Residency.visitor;
+  PaymentBy paymentSelected = PaymentBy.visa;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    StripeServices.init();
+  }
+
+  void payNow(String amount) async {
+    //the amount must be transformed to cents
+    var response =
+    await StripeServices.payNowHandler(amount: amount, currency: 'USD');
+    print('response message ${response.message}');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,8 +65,14 @@ class _CheckoutOutScreenState extends State<CheckoutOutScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               title(title: 'How do you wish to  pay'),
-              paymentMethode(imagePath: 'visa.svg'  , text: 'Visa'),
-              paymentMethode(imagePath: 'mastercard.svg' ,text: 'Master'),
+              paymentMethode(
+                  paymentMethode: PaymentBy.visa,
+                  imagePath: 'visa.svg',
+                  text: 'Visa'),
+              paymentMethode(
+                  paymentMethode: PaymentBy.master,
+                  imagePath: 'mastercard.svg',
+                  text: 'Master'),
               title(title: 'Order Summary'),
               const SizedBox(
                 height: 10,
@@ -154,11 +189,70 @@ class _CheckoutOutScreenState extends State<CheckoutOutScreen> {
                 ],
               ),
 
-              const RoundedButton(text: 'Next'),
+               RoundedButton(
+                text: 'Next',
+                press: () {
+                  if(paymentSelected == PaymentBy.visa){
+                    Navigator.push(context, MaterialPageRoute(builder: (context) {
+                      return const PaymentScreen(200);
+                    }));
+                  }else {
+                    payNow("220")  ;
+                  }
+
+                },
+              ),
             ],
           ),
         ),
       )),
+    );
+  }
+
+  Widget paymentMethode(
+      {required String imagePath,
+      required String text,
+      required PaymentBy paymentMethode}) {
+    return Container(
+      width: double.infinity,
+      // height: 50,
+      padding: const EdgeInsets.symmetric(vertical: 12),
+      margin: const EdgeInsets.symmetric(vertical: 5),
+      decoration: BoxDecoration(
+          borderRadius: const BorderRadius.all(Radius.circular(8)),
+          border: Border.all(color: const Color(0xffe7d8d8), width: 1),
+          color: const Color(0xffffffff)),
+      child: Padding(
+        padding: const EdgeInsets.only(left: 12, right: 12),
+        child: Row(
+          children: [
+            Radio(
+              value: paymentMethode,
+              groupValue: paymentSelected,
+              onChanged: (PaymentBy? value) {
+                setState(() {
+                  paymentSelected = value!;
+                });
+              },
+            ),
+            SvgPicture.asset(
+              SvgAssets.path + imagePath,
+            ),
+            const SizedBox(
+              width: 10,
+            ),
+            Text(
+              text,
+              style: const TextStyle(
+                  color: Color(0xff8898a1),
+                  fontWeight: FontWeight.w400,
+                  fontFamily: "Poppins",
+                  fontStyle: FontStyle.normal,
+                  fontSize: 14.0),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -188,38 +282,5 @@ Widget textSummery({required String title}) {
             fontStyle: FontStyle.normal,
             fontSize: 14.0),
         textAlign: TextAlign.left),
-  );
-}
-
-Widget paymentMethode({required String imagePath ,required String text}) {
-  return Container(
-    width: double.infinity,
-    // height: 50,
-    padding: const EdgeInsets.symmetric(vertical: 12),
-    margin: const EdgeInsets.symmetric(vertical: 5),
-    decoration: BoxDecoration(
-        borderRadius: const BorderRadius.all(Radius.circular(8)),
-        border: Border.all(color: const Color(0xffe7d8d8), width: 1),
-        color: const Color(0xffffffff)),
-    child: Padding(
-      padding: const EdgeInsets.only(left: 12 ,right: 12),
-      child: Row(
-        children: [
-
-          SvgPicture.asset(
-            SvgAssets.path + imagePath,
-          ),
-          const SizedBox(width: 10,) ,
-          Text(text,
-            style:  const TextStyle(
-                color: Color(0xff8898a1),
-                fontWeight: FontWeight.w400,
-                fontFamily: "Poppins",
-                fontStyle: FontStyle.normal,
-                fontSize: 14.0),) ,
-
-        ],
-      ),
-    ),
   );
 }

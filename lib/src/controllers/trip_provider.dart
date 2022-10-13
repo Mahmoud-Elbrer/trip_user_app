@@ -14,7 +14,7 @@ class TripProvider with ChangeNotifier {
     return [..._item];
   }
 
-  Future<void> fetchTrip ( {int? take , int? skip} ) async {
+  Future<void> fetchTrip ( { int? take , int? skip} ) async {
     String url = Url.trip;
     print(url);
     try {

@@ -36,11 +36,6 @@ class CustomEmailField extends StatelessWidget {
         // inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
         controller: controller,
         autofocus: false,
-        style: const TextStyle(
-            color:  Color(0xff1c2340),
-            fontWeight: FontWeight.w400,
-            fontStyle: FontStyle.normal,
-            fontSize: 16.0),
         decoration: InputDecoration(
           border: InputBorder.none,
           filled: true,

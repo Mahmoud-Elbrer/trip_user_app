@@ -5,6 +5,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:trip_user_app/config/routes/app_routes.dart';
 import 'package:trip_user_app/config/themes/app_theme.dart';
 import 'package:trip_user_app/src/controllers/authentication_provider.dart';
+import 'package:trip_user_app/src/controllers/favorite_provider.dart';
 import 'package:trip_user_app/src/controllers/trip_program_provider.dart';
 import 'package:trip_user_app/src/controllers/trip_provider.dart';
 import 'package:trip_user_app/src/utilitis/app_strings.dart';
@@ -12,7 +13,7 @@ import 'package:trip_user_app/src/utilitis/app_strings.dart';
 class TripApp extends StatelessWidget {
   const TripApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -26,7 +27,9 @@ class TripApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => TripProgramProvider(),
         ),
-
+        ChangeNotifierProvider(
+          create: (_) => ProviderFavorite(),
+        ),
 
       ] ,
       child: RefreshConfiguration(

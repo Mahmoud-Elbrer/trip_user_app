@@ -47,6 +47,7 @@ class RoundedNameTextField extends StatelessWidget {
           fillColor: const Color(0xfff3f3f3),
           hintText: text,
           labelText: text,
+
           labelStyle: const TextStyle(
               color: Color(0x8a4e6772),
               fontWeight: FontWeight.w500,

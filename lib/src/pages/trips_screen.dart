@@ -21,7 +21,7 @@ class TripsScreen extends StatefulWidget {
 class _TripsScreenState extends State<TripsScreen> {
   static const int take = 10;
 
-  RefreshController _refreshControllerDoctor = RefreshController(initialRefresh: false);
+  final RefreshController _refreshControllerDoctor = RefreshController(initialRefresh: false);
 
   @override
   void initState() {

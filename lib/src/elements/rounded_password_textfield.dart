@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class RoundedPasswordTextField extends StatelessWidget {
   final String? text;
-  final Function? press;
+  final VoidCallback? press;
   final Color color, textColor;
   final TextEditingController? controller;
   final bool obscureText;
@@ -43,7 +43,7 @@ class RoundedPasswordTextField extends StatelessWidget {
             fontSize: 16.0),
         decoration: InputDecoration(
           suffixIcon: GestureDetector(
-            onTap: press as void Function()?,
+            onTap: press ,
             child: obscureText
                 ? const Icon(
                     Icons.visibility,

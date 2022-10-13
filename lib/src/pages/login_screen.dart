@@ -3,22 +3,17 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:trip_user_app/src/pages/bottom_navigation_screen.dart';
-import 'package:trip_user_app/src/pages/home_screen.dart';
 import 'package:trip_user_app/src/pages/singup_screen.dart';
-import 'package:trip_user_app/src/utilitis/toast.dart';
 import '../../config/routes/app_routes.dart';
-import '../../localization/language_constants.dart';
 import '../controllers/authentication_provider.dart';
 import '../elements/custom_email_textfield.dart';
-
 import '../elements/rounded_button.dart';
 import '../elements/rounded_button_sign_with.dart';
 import '../elements/rounded_password_textfield.dart';
 import '../models/login_model.dart';
-import '../utilitis/alert_dialog.dart';
-import '../utilitis/get_trans_language.dart';
 import '../utilitis/seenAuth.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -138,6 +133,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   RoundedPasswordTextField(
                     text: 'Password',
+                    press: _togglePasswordTextFiled,
+                    obscureText: _obscurePasswordTextFiled,
                     controller: _passwordController,
                     focusOnFieldSubmitted: _passwordFocusNode,
                   ),
@@ -182,21 +179,34 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(
                     height: 2,
                   ),
+                   RoundedButtonSignWith(
+                    press: () async {
+                      await Provider.of<AuthenticationProvider>(context, listen: false).googleSigInMethode();
+                    },
+                      text: 'Sign up with Gmail',
+                      backgroundColor: Color(0xfff6f2e9),
+                      textColor: Color(0xff000000),
+                      iconPath: 'email.svg'),
                   const RoundedButtonSignWith(
                       text: 'Sign up with Apple',
                       backgroundColor: Color(0xff000000),
                       textColor: Color(0xffffffff),
                       iconPath: 'apple.svg'),
-                  const RoundedButtonSignWith(
+                   RoundedButtonSignWith(
+                    press: (){
+                      FacebookAuth.instance.login(
+                        permissions: ['public_profile' ,'email']
+                      ).then((value) {
+                        FacebookAuth.instance.getUserData().then((value) async{
+                          print(value);
+                        });
+                      }) ;
+                    },
                       text: 'Sign up with Facebook',
                       backgroundColor: Color(0xff3a5998),
                       textColor: Color(0xffffffff),
                       iconPath: 'facebook.svg'),
-                  const RoundedButtonSignWith(
-                      text: 'Sign up with gmail',
-                      backgroundColor: Color(0xfff6f2e9),
-                      textColor: Color(0xff000000),
-                      iconPath: 'email.svg'),
+
 
                   // Already have an account? Log In
                   GestureDetector(
@@ -254,7 +264,7 @@ class _LoginScreenState extends State<LoginScreen> {
         EasyLoading.showSuccess('Done');
        // showAlert(context, getTranslated(context, 'alert'), getTranslationLanguage(response['message']));
         //successToast(context, getTranslationLanguage(response['message'])!);
-        //saveSeenAuth();
+        saveSeenAuth();
         Navigator.pushReplacementNamed(context, BottomNavigationScreen.routeName);
       } else {
         // await _progressDialog.hide();

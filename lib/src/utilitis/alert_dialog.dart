@@ -1,7 +1,6 @@
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:flutter/material.dart';
 
-import '../../localization/language_constants.dart';
 
 Future<bool?> showAlert(context, String? title, String? desc) {
   return Alert(
@@ -15,7 +14,7 @@ Future<bool?> showAlert(context, String? title, String? desc) {
         onPressed: () => Navigator.pop(context),
         width: 120,
         child: Text(
-          getTranslated(context, 'ok')!,
+         'ok',
           style: const TextStyle(color: Colors.white, fontSize: 20),
         ),
       )
@@ -55,7 +54,7 @@ Future<bool?> showDialogAlert(
         color: Colors.orange,
         onPressed: deleteUserInfo as void Function()?,
         child: Text(
-          getTranslated(context, 'yes')!,
+          "yes",
           style: TextStyle(
             color: Colors.white,
           ),
@@ -64,7 +63,7 @@ Future<bool?> showDialogAlert(
       DialogButton(
         color: Theme.of(context).primaryColor,
         child: Text(
-          getTranslated(context, 'no')!,
+         "NO",
           style: TextStyle(
             color: Colors.white,
           ),
@@ -80,8 +79,8 @@ Future<bool?> rateDoctorDialogAlert(
   final _formKey = GlobalKey<FormState>();
   return Alert(
       context: context,
-      title: getTranslated(context, 'please_evaluate_the_doctor'),
-      desc: getTranslated(context, 'your_evaluation_help_us'),
+      title: 'please_evaluate_the_doctor',
+      desc: 'your_evaluation_help_us',
       style: AlertStyle(descStyle: TextStyle(color: Colors.grey,fontSize: 12)),
       content: Form(
         key: _formKey,
@@ -124,8 +123,7 @@ Future<bool?> rateDoctorDialogAlert(
                   maxLines: 4,
                   validator: (String? value) {
                     if (value!.isEmpty) {
-                      return getTranslated(
-                          context, 'this_field_cannot_be_empty');
+                      return 'this_field_cannot_be_empty';
                     } else {
                       return null;
                     }
@@ -141,7 +139,7 @@ Future<bool?> rateDoctorDialogAlert(
                       borderSide: BorderSide(color: Colors.white),
                     ),
                     // icon: Icon(Icons.can),
-                    hintText:getTranslated(context, 'comment_here'),
+                    hintText: 'comment_here',
                     //   labelText: 'Username',
                   ),
                 ),
@@ -153,7 +151,7 @@ Future<bool?> rateDoctorDialogAlert(
       buttons: [
         DialogButton(
          color: Colors.white,
-          child:   Text(getTranslated(context, 'submit')!,
+          child:   Text('submit',
               style:  TextStyle(
                   color: Theme.of(context).primaryColor,
                   fontWeight: FontWeight.w700,
@@ -175,7 +173,7 @@ Future<bool?> rateDoctorDialogAlert(
         ),
         DialogButton(
           color: Colors.white,
-          child:  Text(getTranslated(context, 'cancel')!,
+          child:  Text('cancel',
               style: const TextStyle(
                   color: const Color(0xff5e6b6c),
                   fontWeight: FontWeight.w700,
