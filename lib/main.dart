@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:trip_user_app/app.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:trip_user_app/src/utilitis/service_locator.dart';
-
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
@@ -12,8 +10,6 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 
   print("Handling a background message: ${message.messageId}");
 }
-
-
 void main() async {
   //setupLocator();
   WidgetsFlutterBinding.ensureInitialized();

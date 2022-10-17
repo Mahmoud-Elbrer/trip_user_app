@@ -21,7 +21,7 @@ import '../../test_image_slider.dart';
 class Routes {
   static const String initialRoute = '/';
   static const String bottomNavigationRoute = '/BottomNavigation';
-  static const String onboardingRoute = '/onboardingScreen';
+  static const String onBoardingRoute = '/onBoardingScreen';
   static const String splashRoute = '/splash';
   static const String homeRoute = '/home';
   static const String detailTripRoute = '/detailTripScreen';
@@ -44,9 +44,9 @@ class AppRoutes {
         return MaterialPageRoute(
             builder: ((context) => const BottomNavigationScreen()));
 
-      case Routes.onboardingRoute:
+      case Routes.onBoardingRoute:
         return MaterialPageRoute(
-            builder: ((context) => const OnboardingScreen()));
+            builder: ((context) => const OnBoardingScreen()));
 
       case Routes.homeRoute:
         return MaterialPageRoute(builder: ((context) => const HomeScreen()));

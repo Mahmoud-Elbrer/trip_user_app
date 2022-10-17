@@ -1,8 +1,44 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class ProfileScreen extends StatelessWidget {
+import '../utilitis/constance.dart';
+import '../utilitis/not_register_widget.dart';
+
+class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
+
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+
+  bool seenAuth = false;
+  late String? name  ,email  ,imageUrl;
+
+  Future<void> getSharedPrefs() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    // isAuth ??= false;
+    setState(() {
+      seenAuth = prefs.getBool(Constance.seenAuth)!;
+      name = prefs.getString(Constance.name)!;
+      email = prefs.getString(Constance.email)!;
+      imageUrl = prefs.getString(Constance.imageUrl)!;
+      print("this imageUrl");
+      print(imageUrl);
+    });
+
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    //isEnableCont = false;
+    getSharedPrefs();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -10,7 +46,7 @@ class ProfileScreen extends StatelessWidget {
       appBar: AppBar(),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Container(
+        child: seenAuth ? Container(
           child: Column(
             children: [
               Row(
@@ -22,7 +58,8 @@ class ProfileScreen extends StatelessWidget {
                       width: 145.6551513671875,
                       height: 145.6552734375,
                       decoration: const BoxDecoration(
-                          color: Color(0xffadb4c2), shape: BoxShape.circle)),
+                          color: Color(0xffadb4c2), shape: BoxShape.circle ,),
+                      child: Image.network('imageUrl!')),
                 ],
               ),
 
@@ -30,9 +67,9 @@ class ProfileScreen extends StatelessWidget {
                 height: 13,
               ),
               // Mahmoud Abdalla
-              const Text("Mahmoud Abdalla",
-                  style: TextStyle(
-                      color: Color(0xff242134),
+               Text(name! ,
+                  style: const TextStyle(
+                      color:  Color(0xff242134),
                       fontWeight: FontWeight.w700,
                       fontFamily: "SFProText",
                       fontStyle: FontStyle.normal,
@@ -44,8 +81,8 @@ class ProfileScreen extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  columnProfile(title: 'Username', subTitle: 'Mahmoud Abdalla'),
-                  columnProfile(title: 'Email', subTitle: 'm1@gmail.com'),
+                  columnProfile(title: 'Username', subTitle: name!),
+                  columnProfile(title: 'Email', subTitle: email!),
 
                   Container(
                     margin: const EdgeInsets.symmetric(vertical: 20),
@@ -78,8 +115,8 @@ class ProfileScreen extends StatelessWidget {
                 ],
               ),
             ],
-          ),
-        ),
+          ) ,
+        ) : const Center( child:  NotRegisterWidget(),),
       ),
     );
   }

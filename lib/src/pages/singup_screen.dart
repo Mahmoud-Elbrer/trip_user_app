@@ -176,13 +176,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             maskType: EasyLoadingMaskType.black,
                           );
                           signUp(context, loginJsonModel);
-                        } else {}
+                        } else {
+
+                        }
                       }),
 
                   GestureDetector(
                     onTap: () async {
-                      Navigator.pushReplacementNamed(
-                          context, LoginScreen.routeName);
+                      Navigator.pushReplacementNamed(context, LoginScreen.routeName);
                     },
                     child: Container(
                       margin: const EdgeInsets.symmetric(vertical: 25),
@@ -233,10 +234,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       if (response!['success'] == true) {
         EasyLoading.showSuccess('Done');
         saveSeenAuth();
-        Navigator.pushReplacementNamed(context, BottomNavigationScreen.routeName);
-        // await _progressDialog.hide();
-        //successToast(context, getTranslationLanguage(response['message'])!);
-      //  Navigator.pushReplacementNamed(context, LoginScreen.routeName);
+        Navigator.pushReplacementNamed(context, LoginScreen.routeName);
       } else {
         // await _progressDialog.hide();
         EasyLoading.showError(response['message']);

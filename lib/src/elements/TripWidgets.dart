@@ -1,18 +1,17 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:trip_user_app/src/utilitis/URL.dart';
 import 'package:trip_user_app/src/utilitis/toast.dart';
-
 import '../controllers/favorite_provider.dart';
+import '../models/trip_model.dart';
 import '../pages/detail_trip_screen.dart';
 
 class TripWidgets extends StatefulWidget {
-  final String imagePath ;
-  final String text ;
+  const TripWidgets({Key? key}) : super(key: key);
 
-  const TripWidgets({super.key, required this.imagePath, required this.text});
+
 
   @override
   State<TripWidgets> createState() => _TripWidgetsState();
@@ -28,9 +27,13 @@ class _TripWidgetsState extends State<TripWidgets> {
 
   @override
   Widget build(BuildContext context) {
+    final tripModel = Provider.of<TripModel>(context);
     return GestureDetector(
       onTap: (){
-        Navigator.pushNamed(context, DetailTripScreen.routeName) ;
+        Navigator.push(context, MaterialPageRoute(builder: (context){
+          return DetailTripScreen(tripModel) ;
+        })) ;
+       // Navigator.pushNamed(context, DetailTripScreen.routeName) ;
       },
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 5),
@@ -40,7 +43,7 @@ class _TripWidgetsState extends State<TripWidgets> {
             Container(
               width: double.infinity,
               height: 240,
-              child: Image.asset(widget.imagePath ,fit:  BoxFit.fitWidth),
+              child: Image.network(Url.baseTripsImageUrl + tripModel.images![0].imageUrl.toString()  ,fit:  BoxFit.fitWidth),
             ),
             Container(
               width: double.infinity,
@@ -53,7 +56,7 @@ class _TripWidgetsState extends State<TripWidgets> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                       Text(widget.text,
+                       Text(tripModel.tripTitle.toString() ,
                           style: const  TextStyle(
                               color: Color(0xff000000),
                               fontWeight: FontWeight.w500,
@@ -103,15 +106,14 @@ class _TripWidgetsState extends State<TripWidgets> {
     ) ;
   }
 
-
   Future<void> addToFavorite(BuildContext context, var doctorId) async {
     try {
-      Map<String, dynamic> response =
+      Map<String, dynamic>? response =
       await (Provider.of<ProviderFavorite>(context, listen: false)
-          .addFavoriteTripApi(doctorId) as Future<Map<String, dynamic>>);
+          .addFavoriteTripApi(doctorId) );
       ////print("res s");
       ////print(response);
-      if (response['code'] == 200 || response['code'] < 300) {
+      if (response!['code'] == 200 ) {
         // SharedPreferences preferences = await SharedPreferences.getInstance();
         //  preferences.setBool("seenAuth" , true);
         // await _progressDialog.hide();

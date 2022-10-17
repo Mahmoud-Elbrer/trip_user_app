@@ -8,6 +8,8 @@ import '../models/login_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../utilitis/constance.dart';
+
 class AuthenticationProvider extends ChangeNotifier {
 
   Future<Map<String, dynamic>?> login(var loginJsonModel) async {
@@ -17,10 +19,11 @@ class AuthenticationProvider extends ChangeNotifier {
     try {
       print("this is loginJsonModel");
       print(loginJsonModel);
+
       final response =
           await http.post( Uri.parse(url) , body: {
-            "email": loginJsonModel['email'],
-            "password": loginJsonModel['password'],
+            "email": 'hoat@gmail.com', // loginJsonModel['email']
+            "password": '1234567',
           });
 
 
@@ -35,11 +38,13 @@ class AuthenticationProvider extends ChangeNotifier {
           var mJson = jsonDecode(response.body);
           bool? status = mJson['success'];
           if (status == true) {
-            String? message = mJson['description'];
             String token = mJson['token'];
-            SharedPreferences preferences =
-                await SharedPreferences.getInstance();
-            preferences.setString("token", token);
+            String name = mJson['name'];
+            String email = mJson['email'];
+            SharedPreferences preferences = await SharedPreferences.getInstance();
+            preferences.setString(Constance.token, token);
+            preferences.setString(Constance.name, name);
+            preferences.setString(Constance.email, email);
             return json.decode(response.body);
           } else {
             print("Inside switch2 ");
@@ -180,6 +185,8 @@ class AuthenticationProvider extends ChangeNotifier {
     await _auth.signInWithCredential(authCredential).then((value) {
       print("this is value ");
       print(value);
+
+
       // todo : save data to api backend
       //saveUser(value);
     });

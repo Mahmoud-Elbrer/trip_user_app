@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../controllers/favorite_provider.dart';
+import '../elements/FavoriteTripWidgets.dart';
 import '../elements/TripWidgets.dart';
+import '../utilitis/constance.dart';
 import '../utilitis/data_connaction_alert.dart';
 
 class FavoriteScreen extends StatefulWidget {
@@ -23,7 +26,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Trips')),
+      //appBar: AppBar(title: Text('Trips')),
       body: Container(
         color: const Color(0xfff1f9ff),
         height: double.infinity,
@@ -59,11 +62,11 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
               // todo  handel error data
               return connectionError(context, _refreshPage);
             } else {
-              final productsData = Provider.of<ProviderFavorite>(context).items;
+              final providerFavorite = Provider.of<ProviderFavorite>(context).items;
               ////print("length");
               ////print(productsData);
               ////print(productsData.length);
-              if (productsData.length == 0) {
+              if (providerFavorite.length == 0) {
                 ////print("I am in NO dATA");
                 return Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -74,10 +77,19 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                 );
               } else {
                 ////print("I am in FavoriteGrid");
-                return const TripWidgets(
-                  text: 'Dubai',
-                  imagePath: 'assets/images/image.jpg',
-                );
+                return ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                 // physics: const NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, position) {
+                    return ChangeNotifierProvider.value(
+                      value: providerFavorite[position],
+                      child: const FavoriteTripWidgets(),
+                    );
+                  },
+                  itemCount: providerFavorite.length,
+                ) ;
+               // return const FavoriteTripWidgets();
               }
             }
             break;
@@ -86,5 +98,10 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
         }
       },
     );
+  }
+
+  Future<bool?> isLogin() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    return preferences.getBool(Constance.seenAuth);
   }
 }

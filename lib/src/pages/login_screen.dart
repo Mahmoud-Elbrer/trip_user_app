@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:trip_user_app/src/pages/bottom_navigation_screen.dart';
 import 'package:trip_user_app/src/pages/singup_screen.dart';
 import '../../config/routes/app_routes.dart';
@@ -14,6 +15,7 @@ import '../elements/rounded_button.dart';
 import '../elements/rounded_button_sign_with.dart';
 import '../elements/rounded_password_textfield.dart';
 import '../models/login_model.dart';
+import '../utilitis/constance.dart';
 import '../utilitis/seenAuth.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -199,6 +201,16 @@ class _LoginScreenState extends State<LoginScreen> {
                       ).then((value) {
                         FacebookAuth.instance.getUserData().then((value) async{
                           print(value);
+                          print("YOURnAME");
+                          print(value['name']);
+                          print(value['email']);
+                          print(value['picture']['data']['url']);
+
+                          SharedPreferences preferences = await SharedPreferences.getInstance();
+                          // preferences.setString(Constance.token, token);
+                          preferences.setString(Constance.name, value['name']);
+                          preferences.setString(Constance.email, value['email']);
+                          preferences.setString(Constance.imageUrl, value['picture']['data']['url']);
                         });
                       }) ;
                     },

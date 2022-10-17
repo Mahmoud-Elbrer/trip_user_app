@@ -125,7 +125,7 @@ class _TestTripScreenState extends State<TestTripScreen>
             itemBuilder: (context, position) {
               return ChangeNotifierProvider.value(
                 value: tripProvider[position],
-                child: const TripWidgets(text: 'One' , imagePath: 'a', ),
+                child: const TripWidgets(),
               );
             },
             itemCount: tripProvider.length,

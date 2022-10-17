@@ -5,6 +5,7 @@ import 'package:trip_user_app/src/pages/home_screen.dart';
 import 'package:trip_user_app/src/pages/profile_screen.dart';
 
 import '../../config/routes/app_routes.dart';
+import '../utilitis/DrawerWidget.dart';
 
 class BottomNavigationScreen extends StatefulWidget {
 
@@ -38,7 +39,21 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        iconTheme:const IconThemeData(color: Colors.black),
+       // leading: const Icon(Icons.search , color: Colors.black,) ,
+        title: const Text("Rihla",
+            style: TextStyle(
+                color: Color(0xff02376d),
+                fontWeight: FontWeight.w400,
+                //fontFamily: "AdobeDevanagari",
+                fontStyle: FontStyle.normal,
+                fontSize: 26.0),
+            textAlign: TextAlign.left),
+      ),
       backgroundColor: Colors.white,
+      drawer:const  DrawerWidget(),
       body: Center(
         child: getScreen(selectedIndex: _selectedIndex),
       ),

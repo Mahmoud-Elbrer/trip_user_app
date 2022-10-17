@@ -1,12 +1,16 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:trip_user_app/src/models/trip_model.dart';
 import 'package:trip_user_app/src/models/trip_program_model.dart';
+import 'package:trip_user_app/src/pages/detail_trip_screen.dart';
 import 'package:trip_user_app/src/pages/tour_programs.dart';
 import 'package:trip_user_app/src/pages/trips_screen.dart';
 import '../../config/routes/app_routes.dart';
 import '../controllers/trip_program_provider.dart';
 import '../elements/trip_program_widget.dart';
+import '../utilitis/DrawerWidget.dart';
+import '../utilitis/URL.dart';
 import 'emirates_trip_screen.dart';
 import '../elements/trip_home_widget.dart';
 import '../utilitis/assets_manger.dart';
@@ -133,18 +137,18 @@ class _HomeScreenState extends State<HomeScreen> {
     final tripProgramProvider =
         Provider.of<TripProgramProvider>(context, listen: true).items;
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        leading: const Icon(Icons.search , color: Colors.black,) ,
-        title: const Text("Rihla",
-            style: TextStyle(
-                color: Color(0xff02376d),
-                fontWeight: FontWeight.w400,
-                //fontFamily: "AdobeDevanagari",
-                fontStyle: FontStyle.normal,
-                fontSize: 26.0),
-            textAlign: TextAlign.left),
-      ),
+      // appBar: AppBar(
+      //   centerTitle: true,
+      //   leading: const Icon(Icons.search , color: Colors.black,) ,
+      //   title: const Text("Rihla",
+      //       style: TextStyle(
+      //           color: Color(0xff02376d),
+      //           fontWeight: FontWeight.w400,
+      //           //fontFamily: "AdobeDevanagari",
+      //           fontStyle: FontStyle.normal,
+      //           fontSize: 26.0),
+      //       textAlign: TextAlign.left),
+      // ),
       body: Container(
           color: const Color(0xfff1f9ff),
           child: SingleChildScrollView(
@@ -161,7 +165,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     height: 10,
                   ),
 
-                  imageSlider(),
+                  imageSlider(tripProvider),
 
                   rowTextShowAll(text: 'Programs' ,index: 1),
 
@@ -318,7 +322,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget imageSlider() {
+  Widget imageSlider(List<TripModel> tripProvider) {
     return Container(
       color: Colors.grey.shade100,
       height: 280.0,
@@ -328,11 +332,18 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               CarouselSlider(
                 carouselController: _controller,
-                items: imgList
+                items: tripProvider
                     .map((item) => SizedBox(
                           height: 300,
-                          child: Image.network(item,
-                              fit: BoxFit.cover, width: 1000),
+                          child: GestureDetector(
+                            onTap: (){
+                              Navigator.push(context, MaterialPageRoute(builder: (context){
+                                return DetailTripScreen(item) ;
+                              })) ;
+                            },
+                            child: Image.network(Url.baseTripsImageUrl + item.images![0].imageUrl.toString(),
+                                fit: BoxFit.cover, width: 1000),
+                          ),
                         ))
                     .toList(),
                 options: CarouselOptions(
@@ -376,7 +387,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: imgList.asMap().entries.map((entry) {
+                    children: tripProvider.asMap().entries.map((entry) {
                       return GestureDetector(
                         onTap: () => _controller.animateToPage(entry.key),
                         child: Container(

@@ -1,18 +1,19 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
-import '../models/trip_model.dart';
+import '../models/favorite_model.dart';
 import '../utilitis/URL.dart';
+import '../utilitis/constance.dart';
 import '../utilitis/header.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 
 class ProviderFavorite with ChangeNotifier {
-  final List<TripModel> _item = [];
+  final List<FavoriteModel> _item = [];
 
 
-  List<TripModel> get items {
+  List<FavoriteModel> get items {
     return [..._item];
   }
 
@@ -20,9 +21,9 @@ class ProviderFavorite with ChangeNotifier {
     _item.clear();
     SharedPreferences preferences =
     await SharedPreferences.getInstance();
-    var token = preferences.getString("token");
-    ////print("my token");
-    ////print(token);
+    var token = preferences.getString(Constance.token);
+    print("my token");
+    print(token);
     Header header = Header();
     var mheader = header.getHeaderToken(token);
     String url = Url.favoriteTrip;
@@ -30,15 +31,15 @@ class ProviderFavorite with ChangeNotifier {
       final response = await http.get(Uri.parse(url) ,headers: mheader).catchError((onError){
         throw onError;
       });
-      ////print("i in fetchAndSetProducts");
-      ////print(response.body);
+      print("i in fetchAndSetProducts");
+      print(response.body);
 
       if(response.statusCode ==  200 ){
         var body  =  jsonDecode(response.body) ;
-//        List<FavoriteTripModel> list = [];
-        TripModel fb  ;
+//        List<FavoriteFavoriteModel> list = [];
+        FavoriteModel fb  ;
         body.forEach((e){
-           fb  =  TripModel.fromJson(e);
+           fb  =  FavoriteModel.fromJson(e);
           _item.add(fb);
           notifyListeners();
         });
@@ -62,14 +63,14 @@ class ProviderFavorite with ChangeNotifier {
     Header header = new Header();
     var mheader = header.getHeaderToken(token);
     String url = Url.favoriteTrip + tripId;
-    ////print("my url :::");
-    ////print(url);
-
+    print("my url :::");
+    print(url);
     //////print(mheader);
     try {
+
       final _response = await http.post(Uri.parse(url), headers: mheader);
-      ////print("res po");
-      ////print(_response);
+      print("res po");
+      print(_response.body);
       ////print("this data");
       ////print(_response.body);
       ////print("_response.statusCode");

@@ -1,18 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:onboarding/onboarding.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:trip_user_app/src/pages/login_screen.dart';
+import '../../config/routes/app_routes.dart';
 
 
-class OnboardingScreen extends StatefulWidget {
-  const OnboardingScreen({Key? key}) : super(key: key);
+class OnBoardingScreen extends StatefulWidget {
+  static const routeName = Routes.onBoardingRoute ;
+  const OnBoardingScreen({Key? key}) : super(key: key);
 
   @override
-  State<OnboardingScreen> createState() => _OnboardingScreenState();
+  State<OnBoardingScreen> createState() => _OnBoardingScreenScreenState();
 }
 
-class _OnboardingScreenState extends State<OnboardingScreen> {
+class _OnBoardingScreenScreenState extends State<OnBoardingScreen> {
   late Material materialButton;
   late int index;
-  final onboardingPagesList = [
+  final onBoardingPagesList = [
     PageModel(
       widget: DecoratedBox(
         decoration: BoxDecoration(
@@ -31,7 +35,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   horizontal: 45.0,
                   vertical: 90.0,
                 ),
-                child: Image.asset('assets/images/facebook.png',
+                child: Image.asset('assets/icons/logo.png',
                     color: pageImageColor),
               ),
               const Padding(
@@ -39,7 +43,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    'SECURED BACKUP',
+                    'Your Trip Starts Here',
                     style: pageTitleStyle,
                     textAlign: TextAlign.left,
                   ),
@@ -56,39 +60,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   ),
                 ),
               ),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 45.0, vertical: 10.0),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Keep your files in closed safe so you can\'t lose them. Consider TrueNAS.',
-                    style: pageInfoStyle,
-                    textAlign: TextAlign.left,
-                  ),
-                ),
-              ),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 45.0, vertical: 10.0),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Keep your files in closed safe so you can\'t lose them. Consider TrueNAS.',
-                    style: pageInfoStyle,
-                    textAlign: TextAlign.left,
-                  ),
-                ),
-              ),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 45.0, vertical: 10.0),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Keep your files in closed safe so you can\'t lose them. Consider TrueNAS.',
-                    style: pageInfoStyle,
-                    textAlign: TextAlign.left,
-                  ),
-                ),
-              ),
+
+
             ],
           ),
         ),
@@ -112,7 +85,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   horizontal: 45.0,
                   vertical: 90.0,
                 ),
-                child: Image.asset('assets/images/twitter.png',
+                child: Image.asset('assets/icons/logo.png',
                     color: pageImageColor),
               ),
               const Padding(
@@ -120,7 +93,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    'CHANGE AND RISE',
+                    'Your Dubai itinerary is waiting.',
                     style: pageTitleStyle,
                     textAlign: TextAlign.left,
                   ),
@@ -131,7 +104,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    'Give others access to any file or folders you choose',
+                    'Your Dubai itinerary is waiting Your Dubai itinerary is waiting',
                     style: pageInfoStyle,
                     textAlign: TextAlign.left,
                   ),
@@ -161,7 +134,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   horizontal: 45.0,
                   vertical: 90.0,
                 ),
-                child: Image.asset('assets/images/instagram.png',
+                child: Image.asset('assets/icons/logo.png',
                     color: pageImageColor),
               ),
               const Padding(
@@ -169,7 +142,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    'EASY ACCESS',
+                    'Recommended things to do in Dubai',
                     style: pageTitleStyle,
                     textAlign: TextAlign.left,
                   ),
@@ -180,7 +153,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    'Reach your files anytime from any devices anywhere',
+                    'Recommended things to do in Dubai Recommended things to do in Dubai',
                     style: pageInfoStyle,
                     textAlign: TextAlign.left,
                   ),
@@ -229,7 +202,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       color: defaultProceedButtonColor,
       child: InkWell(
         borderRadius: defaultProceedButtonBorderRadius,
-        onTap: () {},
+        onTap: () async {
+          SharedPreferences preferences = await SharedPreferences.getInstance();
+          preferences.setBool("seenOnBoarding" , true);
+          Navigator.pushNamed(context, LoginScreen.routeName);
+        },
         child: const Padding(
           padding: defaultProceedButtonPadding,
           child: Text(
@@ -243,58 +220,41 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: Scaffold(
+    return  Scaffold(
         body: Onboarding(
-          pages: onboardingPagesList,
+          pages: onBoardingPagesList,
           onPageChange: (int pageIndex) {
             index = pageIndex;
           },
           startPageIndex: 0,
           footerBuilder: (context, dragDistance, pagesLength, setIndex) {
-            return DecoratedBox(
-              decoration: BoxDecoration(
-                color: background,
-                border: Border.all(
-                  width: 0.0,
-                  color: background,
-                ),
-              ),
-              child: ColoredBox(
-                color: background,
-                child: Padding(
-                  padding: const EdgeInsets.all(45.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      CustomIndicator(
-                        netDragPercent: dragDistance,
-                        pagesLength: pagesLength,
-                        indicator: Indicator(
-                          indicatorDesign: IndicatorDesign.line(
-                            lineDesign: LineDesign(
-                              lineType: DesignType.line_uniform,
-                            ),
+            return ColoredBox(
+              color: background,
+              child: Padding(
+                padding: const EdgeInsets.all(45.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    CustomIndicator(
+                      netDragPercent: dragDistance,
+                      pagesLength: pagesLength,
+                      indicator: Indicator(
+                        indicatorDesign: IndicatorDesign.line(
+                          lineDesign: LineDesign(
+                            lineType: DesignType.line_uniform,
                           ),
                         ),
                       ),
-                      index == pagesLength - 1
-                          ? _signupButton
-                          : _skipButton(setIndex: setIndex)
-                    ],
-                  ),
+                    ),
+                    index == pagesLength - 1
+                        ? _signupButton
+                        : _skipButton(setIndex: setIndex)
+                  ],
                 ),
               ),
             );
           },
         ),
-      ),
     );
   }
 }

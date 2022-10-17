@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:trip_user_app/src/elements/TripWidgets.dart';
-
 import '../../config/routes/app_routes.dart';
 import '../controllers/trip_provider.dart';
 import '../elements/TripWidgets.dart';
@@ -122,10 +121,7 @@ class _TripsScreenState extends State<TripsScreen> {
                               itemBuilder: (context, position) {
                                 return ChangeNotifierProvider.value(
                                   value: tripProvider[position],
-                                  child: const TripWidgets(
-                                    text: 'Dubai',
-                                    imagePath: 'assets/images/image.jpg',
-                                  ),
+                                  child: const TripWidgets(),
                                 );
                               },
                               itemCount: tripProvider.length,
