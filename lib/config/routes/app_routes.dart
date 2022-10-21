@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 
 import '../../src/pages/bottom_navigation_screen.dart';
 import '../../src/pages/checkout_out_screen.dart';
+import '../../src/pages/detail_group_screen.dart';
 import '../../src/pages/detail_trip_screen.dart';
 import '../../src/pages/favorite_screen.dart';
+import '../../src/pages/group_screen.dart';
 import '../../src/pages/home_screen.dart';
 import '../../src/pages/login_screen.dart';
 import '../../src/pages/ondoraing.dart';
 import '../../src/pages/payment.dart';
 import '../../src/pages/profile_screen.dart';
+import '../../src/pages/select_time_pitch_group_screen.dart';
 import '../../src/pages/singup_screen.dart';
 import '../../src/pages/splash_screen.dart';
 import '../../src/pages/test_trip.dart';
@@ -32,13 +35,17 @@ class Routes {
   static const String tabBarRoute = '/TabBarDemo';
   static const String checkoutOutRoute = '/CheckoutOutScreen';
   static const String tourProgramsRoute = '/TourProgramsScreen';
+  static const String groupRoute = '/GroupScreen';
+  static const String detailGroupRoute = '/DetailGroupScreen';
+  static const String selectTimePitchGroupRoute = '/SelectTimePitchGroupScreen';
 }
 
 class AppRoutes {
   static Route? onGenerateRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
       case Routes.initialRoute:
-        return MaterialPageRoute(builder: ((context) => const BottomNavigationScreen())); // SplashScreen
+        return MaterialPageRoute(builder: ((context) => const SplashScreen())); // SplashScreen
+       // return MaterialPageRoute(builder: ((context) => const GroupScreen(emirateId: '63335d267384867af876cc52',))); // SplashScreen
 
       case Routes.bottomNavigationRoute:
         return MaterialPageRoute(
@@ -77,6 +84,18 @@ class AppRoutes {
       case Routes.tourProgramsRoute:
         return MaterialPageRoute(builder: ((context) => const TourProgramsScreen()));
 
+
+      case Routes.groupRoute:
+        return MaterialPageRoute(builder: ((context) => const GroupScreen(emirateId: '63335d267384867af876cc52',)));
+
+
+      case Routes.selectTimePitchGroupRoute:
+        return MaterialPageRoute(builder: ((context) => const SelectTimePitchGroupScreen()));
+
+
+
+      // case Routes.detailGroupRoute:
+      //   return MaterialPageRoute(builder: ((context) => const DetailGroupScreen()));
 
 
       default:

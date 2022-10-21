@@ -60,7 +60,7 @@ class _TripWidgetsState extends State<TripWidgets> {
                           style: const  TextStyle(
                               color: Color(0xff000000),
                               fontWeight: FontWeight.w500,
-                              fontFamily: "Poppins",
+                              //fontFamily: "Poppins",
                               fontStyle: FontStyle.normal,
                               fontSize: 20.0),
                           textAlign: TextAlign.left),
@@ -97,7 +97,7 @@ class _TripWidgetsState extends State<TripWidgets> {
               style: const TextStyle(
                   color:  Color(0xff415460),
                   fontWeight: FontWeight.w400,
-                  fontFamily: "Poppins",
+                  //fontFamily: "Poppins",
                   fontStyle: FontStyle.normal,
                   fontSize: 10.0),
             )

@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:trip_user_app/src/models/trip_model.dart';
 import 'package:trip_user_app/src/models/trip_program_model.dart';
 import 'package:trip_user_app/src/pages/detail_trip_screen.dart';
+import 'package:trip_user_app/src/pages/group_screen.dart';
 import 'package:trip_user_app/src/pages/tour_programs.dart';
 import 'package:trip_user_app/src/pages/trips_screen.dart';
 import '../../config/routes/app_routes.dart';
@@ -97,7 +98,8 @@ class _HomeScreenState extends State<HomeScreen> {
       });
       await Future.delayed(const Duration(milliseconds: 1000));
       // Provider.of<TripProvider>(context, listen: false).clearData();
-      Provider.of<TripProvider>(context, listen: false).fetchTrip(take: take, skip: 0);
+      Provider.of<TripProvider>(context, listen: false)
+          .fetchTrip(take: take, skip: 0);
 
       setState(() {
         isLoadingData = false;
@@ -118,15 +120,6 @@ class _HomeScreenState extends State<HomeScreen> {
     // await Future.delayed(Duration(milliseconds: 1000));
     _refreshControllerDoctor.loadComplete();
   }
-
-  final List<String> imgList = [
-    'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',
-    'https://images.unsplash.com/photo-1522205408450-add114ad53fe?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=368f45b0888aeb0b7b08e3a1084d3ede&auto=format&fit=crop&w=1950&q=80',
-    'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=94a1e718d89ca60a6337a6008341ca50&auto=format&fit=crop&w=1950&q=80',
-    'https://images.unsplash.com/photo-1523205771623-e0faa4d2813d?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=89719a0d55dd05e2deae4120227e6efc&auto=format&fit=crop&w=1953&q=80',
-    'https://images.unsplash.com/photo-1508704019882-f9cf40e475b4?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=8c6e5e3aba713b17aa1fe71ab4f0ae5b&auto=format&fit=crop&w=1352&q=80',
-    'https://images.unsplash.com/photo-1519985176271-adb1088fa94c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=a0c8d632e977f94e5d312d9893258f59&auto=format&fit=crop&w=1355&q=80'
-  ];
 
   int _current = 0;
   final CarouselController _controller = CarouselController();
@@ -158,7 +151,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   // Rectangle 1
 
-                //  const RoundedTextField(text: 'Search trip'),
+                  //  const RoundedTextField(text: 'Search trip'),
                   // RoundedTextField(text: translation(context).homePage),
 
                   const SizedBox(
@@ -167,7 +160,26 @@ class _HomeScreenState extends State<HomeScreen> {
 
                   imageSlider(tripProvider),
 
-                  rowTextShowAll(text: 'Programs' ,index: 1),
+                  rowTextShowAll(text: 'Event', index: 3),
+
+                  Row(
+                    children: [
+                      eventProgram(
+                          imageUrl: 'assets/icons/horse.svg',
+                          color: const Color(0x738a6f64),
+                          title: "Horse"),
+                      eventProgram(
+                          imageUrl: 'assets/icons/football.svg',
+                          color: const Color(0xc78ad078),
+                          title: "FootBall"),
+                      eventProgram(
+                          imageUrl: 'assets/icons/calender.svg',
+                          color: const Color(0xffe7e7e7),
+                          title: "FootBall"),
+                    ],
+                  ),
+
+                  rowTextShowAll(text: 'Programs', index: 1),
 
                   tripProgram(tripProgramProvider),
 
@@ -184,7 +196,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   //   ],
                   // ),
 
-                  rowTextShowAll(text: 'Trips' ,index: 2),
+                  rowTextShowAll(text: 'Trips', index: 2),
 
                   SizedBox(
                     height: 411,
@@ -217,7 +229,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       itemBuilder: (context, position) {
                                         return ChangeNotifierProvider.value(
                                           value: tripProvider[position],
-                                          child:  TripHomeWidget(),
+                                          child: TripHomeWidget(),
                                         );
                                       },
                                       itemCount: tripProvider.length,
@@ -281,23 +293,25 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget rowTextShowAll({String? text ,int? index}) {
+  Widget rowTextShowAll({String? text, int? index}) {
     return GestureDetector(
-      onTap: (){
-        if(index == 1) {
-           Navigator.pushNamed(context, TourProgramsScreen.routeName);
-        }else {
+      onTap: () {
+        if (index == 1) {
+          Navigator.pushNamed(context, TourProgramsScreen.routeName);
+        } else if (index == 2) {
           Navigator.pushNamed(context, EmiratesTripScreen.routeName);
-        //Navigator.pushNamed(context, TripsScreen);
+          //Navigator.pushNamed(context, TripsScreen);
+        } else {
+          Navigator.pushNamed(context, EmiratesTripScreen.routeName);
         }
       },
       child: SizedBox(
         child: Padding(
-          padding: const EdgeInsets.only(top: 15, bottom: 10, left: 5, right: 5),
+          padding:
+              const EdgeInsets.only(top: 15, bottom: 10, left: 5, right: 5),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-// Destinations
               Text(text!,
                   style: TextStyle(
                       color: Theme.of(context).primaryColor,
@@ -306,7 +320,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       fontStyle: FontStyle.normal,
                       fontSize: 20.0),
                   textAlign: TextAlign.left),
-// See All
               Text("See All",
                   style: TextStyle(
                       color: Theme.of(context).primaryColor,
@@ -317,6 +330,49 @@ class _HomeScreenState extends State<HomeScreen> {
                   textAlign: TextAlign.left)
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget eventProgram(
+      {required String imageUrl, required Color color, required String title}) {
+    return GestureDetector(
+      onTap: (){
+        Navigator.pushNamed(context, GroupScreen.routeName) ;
+      },
+      child: SizedBox(
+        child: Column(
+          children: [
+            Container(
+              width: 80,
+              height: 80,
+              margin: const EdgeInsets.symmetric(horizontal: 4),
+              decoration:  BoxDecoration(
+                  border: Border.all(color: Colors.grey.shade300) ,
+                  borderRadius: const BorderRadius.all(Radius.circular(12) ),
+                  // color: Colors.white
+
+              ),
+              child: Center(
+                  child: SvgPicture.asset(
+                imageUrl,
+                width: 35,
+                height: 35,
+              )),
+            ),
+            const SizedBox(
+              height: 8,
+            ),
+            Text(title,
+                style: TextStyle(
+                    color: Color(0xff415460),
+                    fontWeight: FontWeight.w500,
+                    fontFamily: "Poppins",
+                    fontStyle: FontStyle.normal,
+                    fontSize: 16.0),
+                textAlign: TextAlign.left)
+          ],
         ),
       ),
     );
@@ -336,13 +392,17 @@ class _HomeScreenState extends State<HomeScreen> {
                     .map((item) => SizedBox(
                           height: 300,
                           child: GestureDetector(
-                            onTap: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context){
-                                return DetailTripScreen(item) ;
-                              })) ;
+                            onTap: () {
+                              Navigator.push(context,
+                                  MaterialPageRoute(builder: (context) {
+                                return DetailTripScreen(item);
+                              }));
                             },
-                            child: Image.network(Url.baseTripsImageUrl + item.images![0].imageUrl.toString(),
-                                fit: BoxFit.cover, width: 1000),
+                            child: Image.network(
+                                Url.baseTripsImageUrl +
+                                    item.images![0].imageUrl.toString(),
+                                fit: BoxFit.cover,
+                                width: 1000),
                           ),
                         ))
                     .toList(),
@@ -374,8 +434,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Container(
-                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(7) ,color: Colors.black26,),
-                    padding: EdgeInsets.only(left: 20 ,right: 20),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(7),
+                      color: Colors.black26,
+                    ),
+                    padding: EdgeInsets.only(left: 20, right: 20),
                     child: const Text("Doubai -  UEA",
                         style: TextStyle(
                             color: Colors.white,
@@ -397,10 +460,12 @@ class _HomeScreenState extends State<HomeScreen> {
                               vertical: 8.0, horizontal: 4.0),
                           decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              color: (Theme.of(context).primaryColor ==  Brightness.light
+                              color: (Theme.of(context).primaryColor ==
+                                          Brightness.light
                                       ? Colors.white
                                       : Colors.white)
-                                  .withOpacity(_current == entry.key ? 0.9 : 0.4)),
+                                  .withOpacity(
+                                      _current == entry.key ? 0.9 : 0.4)),
                         ),
                       );
                     }).toList(),

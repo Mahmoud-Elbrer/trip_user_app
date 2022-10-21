@@ -77,7 +77,7 @@ class _TourProgramsScreenState extends State<TourProgramsScreen> {
                   itemBuilder: (context, index) {
                     return ChangeNotifierProvider.value(
                       value: productsData[index],
-                      child:  TourProgramsWidget(),
+                      child:  const TourProgramsWidget(),
                     );
                   },
                   physics: const BouncingScrollPhysics(),
