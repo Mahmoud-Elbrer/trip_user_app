@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:trip_user_app/src/elements/GroupWidgets.dart';
 import '../../config/routes/app_routes.dart';
+import '../controllers/group_provider.dart';
+import '../controllers/group_provider.dart';
 import '../controllers/trip_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -35,9 +37,9 @@ class _GroupScreenState extends State<GroupScreen> {
       setState(() {
         isLoadingData = true;
       });
-      await Provider.of<TripProvider>(context, listen: false).fetchTrip(
+      await Provider.of<GroupProvider>(context, listen: false).fetchGroup(
           take: take,
-          skip: Provider.of<TripProvider>(context, listen: false).items.length);
+          skip: Provider.of<GroupProvider>(context, listen: false).items.length);
     } catch (e) {
       setState(() {
         isErrorInternetConnection = true;
@@ -58,9 +60,9 @@ class _GroupScreenState extends State<GroupScreen> {
         isLoadingData = true;
       });
       await Future.delayed(const Duration(milliseconds: 1000));
-      // Provider.of<TripProvider>(context, listen: false).clearData();
-      Provider.of<TripProvider>(context, listen: false)
-          .fetchTrip(take: take, skip: 0);
+      // Provider.of<GroupProvider>(context, listen: false).clearData();
+      Provider.of<GroupProvider>(context, listen: false)
+          .fetchGroup(take: take, skip: 0);
 
       setState(() {
         isLoadingData = false;
@@ -75,16 +77,16 @@ class _GroupScreenState extends State<GroupScreen> {
 
   void _onLoadingDoctorData() async {
     //print("_onLoading");
-    Provider.of<TripProvider>(context, listen: false).fetchTrip(
+    Provider.of<GroupProvider>(context, listen: false).fetchGroup(
         take: take,
-        skip: Provider.of<TripProvider>(context, listen: false).items.length);
+        skip: Provider.of<GroupProvider>(context, listen: false).items.length);
     // await Future.delayed(Duration(milliseconds: 1000));
     _refreshControllerDoctor.loadComplete();
   }
 
   @override
   Widget build(BuildContext context) {
-    final tripProvider = Provider.of<TripProvider>(context, listen: true).items;
+    final groupProvider = Provider.of<GroupProvider>(context, listen: true).items;
     return Scaffold(
       appBar: AppBar(title: Text('Event')),
       body: Container(
@@ -111,7 +113,7 @@ class _GroupScreenState extends State<GroupScreen> {
                     )
                   : isErrorInternetConnection
                       ? const Center(child: Text('Error'))
-                      : tripProvider.isEmpty
+                      : groupProvider.isEmpty
                           ? const Center(child: Text('No Data'))
                           : ListView.builder(
                               scrollDirection: Axis.vertical,
@@ -119,11 +121,11 @@ class _GroupScreenState extends State<GroupScreen> {
                               physics: const NeverScrollableScrollPhysics(),
                               itemBuilder: (context, position) {
                                 return ChangeNotifierProvider.value(
-                                  value: tripProvider[position],
+                                  value: groupProvider[position],
                                   child: const GroupWidget(),
                                 );
                               },
-                              itemCount: tripProvider.length,
+                              itemCount: groupProvider.length,
                             ),
             ),
           ),

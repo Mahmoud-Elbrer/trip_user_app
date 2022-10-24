@@ -5,8 +5,9 @@ import 'package:provider/provider.dart';
 import 'package:trip_user_app/src/utilitis/URL.dart';
 import 'package:trip_user_app/src/utilitis/toast.dart';
 import '../controllers/favorite_provider.dart';
-import '../models/trip_model.dart';
+import '../models/group_view_model.dart';
 import '../pages/detail_group_screen.dart';
+
 
 class GroupWidget extends StatefulWidget {
   const GroupWidget({Key? key}) : super(key: key);
@@ -21,11 +22,11 @@ class _GroupWidgetState extends State<GroupWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final tripModel = Provider.of<TripModel>(context);
+    final groupViewModel = Provider.of<GroupViewModel>(context);
     return GestureDetector(
       onTap: () {
         Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return DetailGroupScreen(tripModel);
+          return DetailGroupScreen(groupViewModel);
         }));
       },
       child: Card(
@@ -41,7 +42,7 @@ class _GroupWidgetState extends State<GroupWidget> {
                   image: DecorationImage(
                     fit: BoxFit.fitHeight,
                       image: NetworkImage(Url.baseTripsImageUrl +
-                          tripModel.images![0].imageUrl.toString())),
+                          groupViewModel.images![0].imageUrl.toString())),
                 ),
                 child: Stack(
                   children: [
@@ -82,7 +83,7 @@ class _GroupWidgetState extends State<GroupWidget> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(tripModel.tripTitle.toString(),
+                        Text(groupViewModel.groupTitle.toString(),
                             style: const TextStyle(
                                 color: Color(0xff000000),
                                 fontWeight: FontWeight.w500,
@@ -92,7 +93,7 @@ class _GroupWidgetState extends State<GroupWidget> {
                             textAlign: TextAlign.left),
                         rowDetail(
                             imageUrl: 'assets/icons/location_trip.svg',
-                            text: tripModel.tripLocationEn.toString()),
+                            text: groupViewModel.locationEn.toString()),
                         rowDetail(
                             imageUrl: 'assets/icons/location_trip.svg',
                             text: '3 playgrounds'),

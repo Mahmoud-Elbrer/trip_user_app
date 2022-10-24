@@ -10,6 +10,8 @@ class Url {
   static const register = "${url}/user/signUp";
   static const changePassword = "${url}Patient/changePassword";
   static const trip = "${url}/trip";
+  static const group = "${url}/group";
+  static const timeTableGroup = "${url}/timeTableGroup";
   static const paypalPayment = "${url}/paypal/pay";
   static const favoriteTrip = "${url}/favorite/";
 }

@@ -89,8 +89,8 @@ class AppRoutes {
         return MaterialPageRoute(builder: ((context) => const GroupScreen(emirateId: '63335d267384867af876cc52',)));
 
 
-      case Routes.selectTimePitchGroupRoute:
-        return MaterialPageRoute(builder: ((context) => const SelectTimePitchGroupScreen()));
+      // case Routes.selectTimePitchGroupRoute:
+      //   return MaterialPageRoute(builder: ((context) => const SelectTimePitchGroupScreen()));
 
 
 

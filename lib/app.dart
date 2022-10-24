@@ -5,7 +5,10 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:trip_user_app/config/routes/app_routes.dart';
 import 'package:trip_user_app/config/themes/app_theme.dart';
 import 'package:trip_user_app/src/controllers/authentication_provider.dart';
+import 'package:trip_user_app/src/controllers/detail_group_provider.dart';
 import 'package:trip_user_app/src/controllers/favorite_provider.dart';
+import 'package:trip_user_app/src/controllers/group_provider.dart';
+import 'package:trip_user_app/src/controllers/timetabel_group_provider.dart';
 import 'package:trip_user_app/src/controllers/trip_program_provider.dart';
 import 'package:trip_user_app/src/controllers/trip_provider.dart';
 import 'package:trip_user_app/src/utilitis/app_strings.dart';
@@ -30,6 +33,17 @@ class TripApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => ProviderFavorite(),
         ),
+        ChangeNotifierProvider(
+          create: (_) => GroupProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => DetailGroupProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => TimetableGroupProvider(),
+        ),
+
+
 
       ] ,
       child: RefreshConfiguration(
